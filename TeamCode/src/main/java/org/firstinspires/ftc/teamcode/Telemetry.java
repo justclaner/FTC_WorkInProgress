@@ -15,6 +15,10 @@ public class Telemetry extends OpMode {
      DcMotor backLeft;
      DcMotor backRight;
 
+     DcMotor linearSlideLeft;
+     DcMotor linearSlideRight;
+
+
     @Override
     public void init() {
 
@@ -25,6 +29,8 @@ public class Telemetry extends OpMode {
         backRight = hardwareMap.get(DcMotor.class, "backRight");
 
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        linearSlideLeft= hardwareMap.get(DcMotor.class,"linearslideLeft");
+        linearSlideRight= hardwareMap.get(DcMotor.class,"linearslideRight");
 
     }
 @Override
@@ -34,7 +40,8 @@ public class Telemetry extends OpMode {
         double rAxisMovement = 0.6*gamepad1.right_stick_x;
         double lAxisMovement = 0.6*gamepad2.left_stick_y;
 
-
+        double linearSlideLeftPower = lAxisMovement;
+        double linearSlideRightPower=lAxisMovement;
         double frontLeftPower = yAxisMovement - xAxisMovement - rAxisMovement;
         double frontRightPower = yAxisMovement + xAxisMovement + rAxisMovement;
         double backLeftPower = yAxisMovement + xAxisMovement - rAxisMovement;
@@ -44,7 +51,7 @@ public class Telemetry extends OpMode {
         frontRight.setPower(0.7*frontRightPower);
         backLeft.setPower(0.7*backLeftPower);
         backRight.setPower(0.7*backRightPower);
-        //comment
+
     }
 
 }

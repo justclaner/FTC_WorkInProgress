@@ -51,6 +51,8 @@ public class Telemetry extends OpMode {
         frontRight.setPower(0.7*frontRightPower);
         backLeft.setPower(0.7*backLeftPower);
         backRight.setPower(0.7*backRightPower);
+        linearSlideLeft.setPower(0.7*linearSlideLeftPower);
+        linearSlideRight.setPower(0.7*linearSlideRightPower);
 
     }
 

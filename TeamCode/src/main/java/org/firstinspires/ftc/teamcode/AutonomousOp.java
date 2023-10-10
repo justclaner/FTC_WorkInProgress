@@ -31,6 +31,14 @@ public class AutonomousOp extends LinearOpMode {
 
         waitForStart();
 
+        telemetry.addData("frontLeft	:", frontLeft.getCurrentPosition());
+        telemetry.addData("frontRight:", frontRight.getCurrentPosition());
+        telemetry.addData("backLeft	:", backLeft.getCurrentPosition());
+        telemetry.addData("backRight	:", backRight.getCurrentPosition());
 
     }
+
+        public void DriveForward(double power, int inches) {
+
+        }
 }

@@ -40,8 +40,8 @@ public class Telemetry extends OpMode {
         double rAxisMovement = 0.6*gamepad1.right_stick_x;
         double lAxisMovement = 0.6*gamepad2.left_stick_y;
 
-        double linearSlideLeftPower = lAxisMovement;
-        double linearSlideRightPower=lAxisMovement;
+        double linearSlidePower = lAxisMovement;
+
         double frontLeftPower = yAxisMovement - xAxisMovement - rAxisMovement;
         double frontRightPower = yAxisMovement + xAxisMovement + rAxisMovement;
         double backLeftPower = yAxisMovement + xAxisMovement - rAxisMovement;
@@ -51,9 +51,15 @@ public class Telemetry extends OpMode {
         frontRight.setPower(0.7*frontRightPower);
         backLeft.setPower(0.7*backLeftPower);
         backRight.setPower(0.7*backRightPower);
-        linearSlideLeft.setPower(0.7*linearSlideLeftPower);
-        linearSlideRight.setPower(0.7*linearSlideRightPower);
+        linearSlideLeft.setPower(0.7*linearSlidePower);
+        linearSlideRight.setPower(0.7*linearSlidePower);
 
+        telemetry.addData("frontLeft	:", frontLeft.getPower());
+        telemetry.addData("frontRight:", frontRight.getPower());
+        telemetry.addData("backLeft	:", backLeft.getPower());
+        telemetry.addData("backRight	:", backRight.getPower());
+
+        telemetry.update();
     }
 
 }

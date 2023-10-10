@@ -29,8 +29,8 @@ public class Telemetry extends OpMode {
         backRight = hardwareMap.get(DcMotor.class, "backRight");
 
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        linearSlideLeft= hardwareMap.get(DcMotor.class,"linearslideLeft");
-        linearSlideRight= hardwareMap.get(DcMotor.class,"linearslideRight");
+        linearSlideLeft = hardwareMap.get(DcMotor.class,"linearslideLeft");
+        linearSlideRight = hardwareMap.get(DcMotor.class,"linearslideRight");
 
     }
 @Override

@@ -19,6 +19,7 @@ public class Telemetry extends OpMode {
      //DcMotor linearSlideRight;
 
 
+
     @Override
     public void init() {
 
@@ -27,6 +28,13 @@ public class Telemetry extends OpMode {
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
+
+        frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//      linearSlideLeft = hardwareMap.get(DcMotor.class,"linearslideLeft");
+//      linearSlideRight = hardwareMap.get(DcMotor.class,"linearslideRight");
 
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
        // linearSlideLeft = hardwareMap.get(DcMotor.class,"linearslideLeft");
@@ -51,15 +59,21 @@ public class Telemetry extends OpMode {
         frontRight.setPower(0.7*frontRightPower);
         backLeft.setPower(0.7*backLeftPower);
         backRight.setPower(0.7*backRightPower);
-       // linearSlideLeft.setPower(0.7*linearSlidePower);
-       // linearSlideRight.setPower(0.7*linearSlidePower);
-
+//        if (linearSlideLeft.getCurrentPosition() < 100) {
+//            // linearSlideLeft.setPower(0.7*linearSlidePower);
+//            // linearSlideRight.setPower(0.7*linearSlidePower);
+//        } else if (linearSlideLeft.getCurrent() >= 100) {
+//            linearSlideLeft.setPower(0);
+//            linearSlideRight.setPower(0);
+//        }
         telemetry.addData("frontLeft	:", frontLeft.getPower());
         telemetry.addData("frontRight:", frontRight.getPower());
         telemetry.addData("backLeft	:", backLeft.getPower());
         telemetry.addData("backRight	:", backRight.getPower());
+        //telemetry.addData("linear_slide_position", linearSlideLeft.getCurrentPosition());
 
-        telemetry.update();
+
+    telemetry.update();
     }
 
 }

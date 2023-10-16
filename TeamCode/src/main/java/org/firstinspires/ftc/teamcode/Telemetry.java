@@ -18,6 +18,8 @@ public class Telemetry extends OpMode {
      //DcMotor linearSlideLeft;
      //DcMotor linearSlideRight;
 
+    //servo claw;
+
 
 
     @Override
@@ -33,13 +35,18 @@ public class Telemetry extends OpMode {
         frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//      linearSlideLeft = hardwareMap.get(DcMotor.class,"linearslideLeft");
-//      linearSlideRight = hardwareMap.get(DcMotor.class,"linearslideRight");
+        //linearSlideLeft = hardwareMap.get(DcMotor.class,"linearSlideLeft");
+        //linearSlideRight = hardwareMap.get(DcMotor.class,"linearSlideRight");
 
+
+
+       //linearSlideLeft = hardwareMap.get(DcMotor.class,"linearSlideLeft");
+        //linearSlideRight = hardwareMap.get(DcMotor.class,"linearSlideRight");
+        //claw = hardwareMap.get(Servo.class, "claw");
+
+
+        //claw.setDirection(Servo.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-       // linearSlideLeft = hardwareMap.get(DcMotor.class,"linearslideLeft");
-        //linearSlideRight = hardwareMap.get(DcMotor.class,"linearslideRight");
-
     }
 @Override
     public void loop() {

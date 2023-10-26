@@ -62,25 +62,31 @@ public class AutonomousOp extends LinearOpMode {
         targetForward(100);
         setRunToPosition();
         driveForward(0.7);
-        stopDriving();
-        setRunUsingEncoders();
+        whileActive();
+//        stopDriving();
+//        setRunUsingEncoders();
 
 
         resetEncoders();
         targetLeft(50);
         setRunToPosition();
         driveLeft(0.7);
+        whileActive();
 
-        while (opModeIsActive()) {
+
+
+        }
+
+
+    public void whileActive() {
+        while (opModeIsActive() && frontLeft.isBusy() && backRight.isBusy()) {
+            idle();
             telemetry.addData("frontLeft	:", frontLeft.getCurrentPosition());
             telemetry.addData("frontRight:", frontRight.getCurrentPosition());
             telemetry.addData("backLeft	:", backLeft.getCurrentPosition());
             telemetry.addData("backRight	:", backRight.getCurrentPosition());
             telemetry.update();
-}
-
-
-
+        }
     }
 
     public void setRunToPosition() {

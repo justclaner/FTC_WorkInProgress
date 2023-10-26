@@ -8,15 +8,15 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 //import com.qualcomm.robotcore.util.ElapsedTime;
 //
 //import com.qualcomm.robotcore.hardware.DcMotor;
-@TeleOp(name = "TeleOp WIP")
+@TeleOp(name = "TeleOp")
 public class Telemetry extends OpMode {
      DcMotor frontLeft;
      DcMotor frontRight;
      DcMotor backLeft;
      DcMotor backRight;
 
-     //DcMotor linearSlideLeft;
-     //DcMotor linearSlideRight;
+     DcMotor linearSlideLeft;
+     DcMotor linearSlideRight;
 
     //servo claw;
 
@@ -35,14 +35,15 @@ public class Telemetry extends OpMode {
         frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //linearSlideLeft = hardwareMap.get(DcMotor.class,"linearSlideLeft");
-        //linearSlideRight = hardwareMap.get(DcMotor.class,"linearSlideRight");
+        linearSlideLeft = hardwareMap.get(DcMotor.class,"linearSlideLeft");
+        linearSlideRight = hardwareMap.get(DcMotor.class,"linearSlideRight");
 
 
 
        //linearSlideLeft = hardwareMap.get(DcMotor.class,"linearSlideLeft");
         //linearSlideRight = hardwareMap.get(DcMotor.class,"linearSlideRight");
         //claw = hardwareMap.get(Servo.class, "claw");
+        //claw.setPosition(0);
 
 
         //claw.setDirection(Servo.Direction.REVERSE);
@@ -66,18 +67,18 @@ public class Telemetry extends OpMode {
         frontRight.setPower(0.7*frontRightPower);
         backLeft.setPower(0.7*backLeftPower);
         backRight.setPower(0.7*backRightPower);
-//        if (linearSlideLeft.getCurrentPosition() < 100) {
-//            // linearSlideLeft.setPower(0.7*linearSlidePower);
-//            // linearSlideRight.setPower(0.7*linearSlidePower);
-//        } else if (linearSlideLeft.getCurrent() >= 100) {
-//            linearSlideLeft.setPower(0);
-//            linearSlideRight.setPower(0);
-//        }
+        if (linearSlideLeft.getCurrentPosition() < 100) {
+        linearSlideLeft.setPower(0.7*linearSlidePower);
+        linearSlideRight.setPower(0.7*linearSlidePower);
+        } else if (linearSlideLeft.getCurrentPosition() >= 100) {
+            linearSlideLeft.setPower(0);
+            linearSlideRight.setPower(0);
+        }
         telemetry.addData("frontLeft	:", frontLeft.getPower());
         telemetry.addData("frontRight:", frontRight.getPower());
         telemetry.addData("backLeft	:", backLeft.getPower());
         telemetry.addData("backRight	:", backRight.getPower());
-        //telemetry.addData("linear_slide_position", linearSlideLeft.getCurrentPosition());
+        telemetry.addData("linear_slide_position", linearSlideLeft.getCurrentPosition());
 
 
     telemetry.update();

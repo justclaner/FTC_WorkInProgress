@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 import static java.lang.Math.round;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
@@ -8,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-
+@Autonomous
 public class AutonomousOp extends LinearOpMode {
     DcMotor frontLeft = null;
     DcMotor frontRight = null;
@@ -28,31 +29,56 @@ public class AutonomousOp extends LinearOpMode {
 //        linearSlideRight = hardwareMap.get(DcMotor.class,"linearSlideRight");
 
 
-        frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+          setRunUsingEncoders();
+
         //linearSlideLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //linearSlideRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         waitForStart();
 
+//        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//
+//        frontLeft.setTargetPosition(10000);
+//        frontRight.setTargetPosition(10000);
+//        backLeft.setTargetPosition(10000);
+//        backRight.setTargetPosition(10000);
+//
+//        frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//
+//
+//        frontLeft.setPower(0.7);
+//        frontRight.setPower(0.7);
+//        backLeft.setPower(0.7);
+//        backRight.setPower(0.7);
+
 
         resetEncoders();
-        targetForward(10);
+        targetForward(100);
         setRunToPosition();
         driveForward(0.7);
+        stopDriving();
+        setRunUsingEncoders();
+
 
         resetEncoders();
-        targetLeft(5);
+        targetLeft(50);
         setRunToPosition();
         driveLeft(0.7);
 
+        while (opModeIsActive()) {
+            telemetry.addData("frontLeft	:", frontLeft.getCurrentPosition());
+            telemetry.addData("frontRight:", frontRight.getCurrentPosition());
+            telemetry.addData("backLeft	:", backLeft.getCurrentPosition());
+            telemetry.addData("backRight	:", backRight.getCurrentPosition());
+            telemetry.update();
+}
 
-        telemetry.addData("frontLeft	:", frontLeft.getCurrentPosition());
-        telemetry.addData("frontRight:", frontRight.getCurrentPosition());
-        telemetry.addData("backLeft	:", backLeft.getCurrentPosition());
-        telemetry.addData("backRight	:", backRight.getCurrentPosition());
 
 
     }
@@ -63,6 +89,13 @@ public class AutonomousOp extends LinearOpMode {
         backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
+    public void setRunUsingEncoders(){
+        frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
 
     public void resetEncoders() {
         frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -117,7 +150,12 @@ public class AutonomousOp extends LinearOpMode {
         backLeft.setPower(power);
         backRight.setPower(power);
     }
-
+    public void stopDriving(){
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
+    }
     public void driveBackward(double power) {
         frontLeft.setPower(-power);
         frontRight.setPower(-power);

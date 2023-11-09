@@ -4,13 +4,10 @@ import static java.lang.Math.round;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@Autonomous
-public class AutonomousOp extends LinearOpMode {
+@Autonomous(name="Auto Blue Left")
+public class AutonomousBlueLeft extends LinearOpMode {
     DcMotor frontLeft = null;
     DcMotor frontRight = null;
     DcMotor backLeft = null;
@@ -25,6 +22,7 @@ public class AutonomousOp extends LinearOpMode {
         backRight = hardwareMap.get(DcMotor.class, "backRight");
 
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 //        linearSlideLeft = hardwareMap.get(DcMotor.class,"linearSlideLeft");
 //        linearSlideRight = hardwareMap.get(DcMotor.class,"linearSlideRight");
 
@@ -36,39 +34,16 @@ public class AutonomousOp extends LinearOpMode {
 
         waitForStart();
 
-//        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//
-//        frontLeft.setTargetPosition(10000);
-//        frontRight.setTargetPosition(10000);
-//        backLeft.setTargetPosition(10000);
-//        backRight.setTargetPosition(10000);
-//
-//        frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//
-//
-//        frontLeft.setPower(0.7);
-//        frontRight.setPower(0.7);
-//        backLeft.setPower(0.7);
-//        backRight.setPower(0.7);
-
 
         resetEncoders();
-        targetForward(100);
+        targetForward(5);
         setRunToPosition();
         driveForward(0.7);
         whileActive();
-//        stopDriving();
-//        setRunUsingEncoders();
 
 
         resetEncoders();
-        targetLeft(50);
+        targetLeft(48);
         setRunToPosition();
         driveLeft(0.7);
         whileActive();
@@ -82,6 +57,7 @@ public class AutonomousOp extends LinearOpMode {
         while (opModeIsActive() && frontLeft.isBusy() && backRight.isBusy()) {
             idle();
             telemetry.addData("frontLeft	:", frontLeft.getCurrentPosition());
+            telemetry.addData("frontLeft	Target:", frontLeft.getTargetPosition());
             telemetry.addData("frontRight:", frontRight.getCurrentPosition());
             telemetry.addData("backLeft	:", backLeft.getCurrentPosition());
             telemetry.addData("backRight	:", backRight.getCurrentPosition());
@@ -193,8 +169,8 @@ public class AutonomousOp extends LinearOpMode {
         backRight.setPower(power);
     }
 
-        public int mathTicks(double x) {
-        double raw = Math.round(x*537.7/(3.75*3.14));
+        public int mathTicks(double inches) {
+        double raw = Math.round(inches*537.7/(3.779*3.14));
         return (int)raw;
         }
 }

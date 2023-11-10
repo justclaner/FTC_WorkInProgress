@@ -3,13 +3,8 @@ import android.graphics.Canvas;
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.vision.VisionProcessor;
 import org.opencv.core.Mat;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
-import org.firstinspires.ftc.vision.VisionProcessor;
- import org.opencv.core.Rect;
-public class Camera implements VisionProcessor {
+
+public class EmptyProcessor implements VisionProcessor {
     @Override
     public void init(int height, int width, CameraCalibration calibration) {
 

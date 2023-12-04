@@ -34,6 +34,8 @@ public class Telemetry extends OpMode {
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
+        linearSlideLeft = hardwareMap.get(DcMotor.class, "linearSlideLeft");
+        linearSlideRight = hardwareMap.get(DcMotor.class, "linearSlideRight");
 
         frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -44,8 +46,7 @@ public class Telemetry extends OpMode {
 
 
 
-        linearSlideLeft = hardwareMap.get(DcMotor.class, "linearSlideLeft");
-        linearSlideRight = hardwareMap.get(DcMotor.class, "linearSlideRight");
+
 
 
         //linearSlideLeft = hardwareMap.get(DcMotor.class,"linearSlideLeft");

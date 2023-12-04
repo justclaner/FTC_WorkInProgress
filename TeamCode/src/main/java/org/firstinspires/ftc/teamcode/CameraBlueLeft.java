@@ -1,23 +1,30 @@
 package org.firstinspires.ftc.teamcode;
-import static java.lang.Math.round;
+
+
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@Autonomous(name="Auto Blue Left")
-public class AutonomousBlueLeft extends LinearOpMode {
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.processors.FirstVisionProcessor;
+import org.firstinspires.ftc.vision.VisionPortal;
+
+@Autonomous(name = "Camera Blue (Truss on Left)")
+public class CameraBlueLeft extends OpMode {
+
     DcMotor frontLeft = null;
     DcMotor frontRight = null;
     DcMotor backLeft = null;
     DcMotor backRight = null;
-    DcMotor linearSlideLeft = null;
-    DcMotor linearSlideRight = null;
 
+    private FirstVisionProcessor visionProcessor;
 
-    public void runOpMode() {
+    private VisionPortal visionPortal;
 
+    @Override
+    public void init() {
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
@@ -25,44 +32,115 @@ public class AutonomousBlueLeft extends LinearOpMode {
 
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-//        linearSlideLeft = hardwareMap.get(DcMotor.class,"linearSlideLeft");
-//        linearSlideRight = hardwareMap.get(DcMotor.class,"linearSlideRight");
+        visionProcessor = new FirstVisionProcessor();
+        visionPortal = VisionPortal.easyCreateWithDefaults(
+                hardwareMap.get(WebcamName.class, "Camera"), visionProcessor);
+
+        setRunUsingEncoders();
+    }
+
+    @Override
+    public void init_loop() {
+        telemetry.addData("Identified", visionProcessor.getSelection());
+    }
 
 
-          setRunUsingEncoders();
-
-        //linearSlideLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //linearSlideRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        waitForStart();
-
-
-        resetEncoders();
-        targetForward(5);
-        setRunToPosition();
-        driveForward(0.7);
-        whileActive();
-
-
-        resetEncoders();
-        targetLeft(48);
-        setRunToPosition();
-        driveLeft(0.7);
-        whileActive();
-        frontLeft.setPower(0);
-
-
+    @Override
+    public void start() {
+        visionPortal.stopStreaming();
+        telemetry.addData("Identified", visionProcessor.getSelection());
+        switch (visionProcessor.getSelection()) {
+            case LEFT:
+                move("Forward",20,0.4);
+                move("CC", 15, 0.4);
+                move("Forward", 8, 0.4);
+                move("Backward", 8, 0.4);
+                move("C", 15, 0.4);
+                move("Forward",40,0.4);
+                move("Left",60,0.4);
+                move("CC", 60, 0.4);
+                move("Right",60,0.4);
+                break;
+            case MIDDLE:
+                move("Forward",30,0.4);
+                move("Backward", 10, 0.4);
+                move("Right",20,0.4);
+                move("Forward",40,0.4);
+                move("Left",70,0.4);
+                move("CC", 60, 0.4);
+                move("Right",60,0.4);
+                break;
+            case RIGHT:
+                move("Forward",20,0.4);
+                move("C",15,0.4);
+                move("Forward",8,0.4);
+                move("Backward",8,0.4);
+                move("CC",15,0.4);
+                move("Forward",40,0.4);
+                move("Left",60,0.4);
+                move("CC", 60, 0.4);
+                move("Right",60,0.4);
+                break;
+            case NONE:
+                break;
         }
+    }
 
+    @Override
+    public void loop() {
+    }
 
+    public void move(String direction, double inches, double power) {
+        resetEncoders();
+        switch(direction) {
+            case "Left":
+                targetLeft(inches);
+                break;
+            case "Forward":
+                targetForward(inches);
+                break;
+            case "Right":
+                targetRight(inches);
+                break;
+            case "Backward":
+                targetBackward(inches);
+                break;
+            case "C":
+                targetC(inches);
+                break;
+            case "CC":
+                targetCC(inches);
+        }
+        setRunToPosition();
+
+        switch (direction) {
+            case "Left":
+                driveLeft(power);
+                break;
+            case "Forward":
+                driveForward(power);
+                break;
+            case "Right":
+                driveRight(power);
+                break;
+            case "Backward":
+                driveBackward(power);
+                break;
+            case "C":
+                rotateC(power);
+                break;
+            case "CC":
+                rotateCC(power);
+                break;
+        }
+        whileActive();
+        }
     public void whileActive() {
-        while (opModeIsActive() && frontLeft.isBusy() && backRight.isBusy()) {
-            idle();
-            telemetry.addData("frontLeft	:", frontLeft.getCurrentPosition());
-            telemetry.addData("frontLeft	Target:", frontLeft.getTargetPosition());
-            telemetry.addData("frontRight:", frontRight.getCurrentPosition());
-            telemetry.addData("backLeft	:", backLeft.getCurrentPosition());
-            telemetry.addData("backRight	:", backRight.getCurrentPosition());
+        while (frontLeft.isBusy() && backRight.isBusy()) {
+            telemetry.addData("frontLeft	:", mathInches(frontLeft.getCurrentPosition()));
+            telemetry.addData("frontRight:", mathInches(frontRight.getCurrentPosition()));
+            telemetry.addData("backLeft	:", mathInches(backLeft.getCurrentPosition()));
+            telemetry.addData("backRight	:", mathInches(backRight.getCurrentPosition()));
             telemetry.update();
         }
     }
@@ -171,8 +249,14 @@ public class AutonomousBlueLeft extends LinearOpMode {
         backRight.setPower(power);
     }
 
-        public int mathTicks(double inches) {
+    public int mathTicks(double inches) {
         double raw = Math.round(inches*537.7/(3.779*3.14));
         return (int)raw;
-        }
+    }
+
+    public double mathInches(int ticks){
+        double raw= Math.round(ticks*(3.779*Math.PI)/537.7);
+        return (double)raw;
+    }
+
 }

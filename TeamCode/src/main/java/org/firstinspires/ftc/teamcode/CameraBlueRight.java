@@ -51,23 +51,26 @@ public class CameraBlueRight extends OpMode {
         telemetry.addData("Identified", visionProcessor.getSelection());
         switch (visionProcessor.getSelection()) {
             case LEFT:
-                move("Forward",20,0.4);
+                move("Forward",18,0.4);
                 move("CC",15,0.4);
-                move("Forward",8,0.4);
-                move("Backward",8,0.4);
+                move("Forward",4.5,0.4);
+                move("Backward",4.5,0.4);
                 move("C",15,0.4);
+                move("Backward",5,0.4);
                 move("Left",40,0.4);
                 break;
             case MIDDLE:
-                move("Forward",30,0.4);
+                move("Forward",27.2,0.4);
                 move("Backward",10,0.4);
                 move("Left",30,0.4);
                 break;
             case RIGHT:
-                move("Forward",20,0.4);
+                move("Forward",18,0.4);
                 move("C",15,0.4);
-                move("Forward",8,0.4);
-                move("Backward",8,0.4);
+                move("Forward",8.5,0.4);
+                move("Backward",8.5,0.4);
+                move("CC",15,0.4);
+                move("Backward",5,0.4);
                 move("Left",40,0.4);
                 break;
             case NONE:
@@ -85,7 +88,7 @@ public class CameraBlueRight extends OpMode {
             case "Left":
                 targetLeft(inches);
                 break;
-            case "Front":
+            case "Forward":
                 targetForward(inches);
                 break;
             case "Right":
@@ -106,7 +109,7 @@ public class CameraBlueRight extends OpMode {
             case "Left":
                 driveLeft(power);
                 break;
-            case "Front":
+            case "Forward":
                 driveForward(power);
                 break;
             case "Right":

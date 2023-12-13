@@ -51,35 +51,40 @@ public class CameraBlueLeft extends OpMode {
         telemetry.addData("Identified", visionProcessor.getSelection());
         switch (visionProcessor.getSelection()) {
             case LEFT:
+                move("Forward",19,0.4);
+                move("CC", 20, 0.4);
+                move("Forward", 7, 0.4);
+                move("Backward", 7, 0.4);
+                move("C", 20, 0.4);
+                move("Forward",35,0.4);
+                move("Left",70,0.4);
+                move("CC", 55, 0.4);
+                move("Right",40,0.4);
                 move("Forward",20,0.4);
-                move("CC", 15, 0.4);
-                move("Forward", 8, 0.4);
-                move("Backward", 8, 0.4);
-                move("C", 15, 0.4);
-                move("Forward",40,0.4);
-                move("Left",60,0.4);
-                move("CC", 60, 0.4);
-                move("Right",60,0.4);
+                move("Right",10,0.4);
                 break;
             case MIDDLE:
-                move("Forward",30,0.4);
+                move("Forward",28,0.4);
                 move("Backward", 10, 0.4);
                 move("Right",20,0.4);
                 move("Forward",40,0.4);
-                move("Left",70,0.4);
-                move("CC", 60, 0.4);
-                move("Right",60,0.4);
+                move("Left",75,0.4);
+                move("CC", 55, 0.4);
+                move("Right",50,0.4);
+                move("Forward",15,0.4);
+                move("Right",10,0.4);
                 break;
             case RIGHT:
-                move("Forward",20,0.4);
+                move("Forward",18,0.4);
                 move("C",15,0.4);
-                move("Forward",8,0.4);
-                move("Backward",8,0.4);
+                move("Forward",6,0.4);
+                move("Backward",6,0.4);
                 move("CC",15,0.4);
-                move("Forward",40,0.4);
-                move("Left",60,0.4);
-                move("CC", 60, 0.4);
-                move("Right",60,0.4);
+                move("Forward",35,0.4);
+                move("Left",65,0.4);
+                move("CC", 55, 0.4);
+                move("Right",40,0.4);
+                move("C",20,0.4);
                 break;
             case NONE:
                 break;

@@ -13,18 +13,21 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 //import com.qualcomm.robotcore.hardware.servo;
 @TeleOp(name = "TeleOp Actual")
 public class Telemetry extends OpMode {
-    DcMotor frontLeft;
-    DcMotor frontRight;
-    DcMotor backLeft;
-    DcMotor backRight;
+    //GoBILDA 5202/3/4 series
+    DcMotor frontLeft;  // 2
+    DcMotor frontRight; // 0
+    DcMotor backLeft;  // 1
+    DcMotor backRight; // 3
 
-    DcMotor linearSlideLeft;
-    DcMotor linearSlideRight;
+    DcMotor linearSlideLeft;  // 0
+    DcMotor linearSlideRight; // 1
+
 //    private RenderNode claw;
 
-    //servo claw;
+    //Servo claw;
 
-
+    double servoMininumPosition = 0;
+    double servoMaximumPosition = 0.25;
     @Override
     public void init() {
 
@@ -34,23 +37,22 @@ public class Telemetry extends OpMode {
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
+//
         linearSlideLeft = hardwareMap.get(DcMotor.class, "linearSlideLeft");
         linearSlideRight = hardwareMap.get(DcMotor.class, "linearSlideRight");
+
+//      claw = hardwareMap.get(Servo.class, "claw");
 
         frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         linearSlideLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         linearSlideRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
 
-
-
-
-        //linearSlideLeft = hardwareMap.get(DcMotor.class,"linearSlideLeft");
-        //linearSlideRight = hardwareMap.get(DcMotor.class,"linearSlideRight");
         //claw = hardwareMap.get(Servo.class, "claw");
         //claw.scaleRange(0,1);
 
@@ -61,20 +63,24 @@ public class Telemetry extends OpMode {
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        linearSlideLeft.setDirection(DcMotorSimple.Direction.REVERSE); // or right
+        linearSlideRight.setDirection(DcMotorSimple.Direction.REVERSE); // or right
 
 
     }
-
+    int aPressed = 0;
+    int bPressed = 0;
     @Override
     public void loop() {
+
         double xAxisMovement = gamepad1.left_stick_x;
         double yAxisMovement = gamepad1.left_stick_y;
         double rAxisMovement = 0.6*gamepad1.right_stick_x;
-        double lAxisMovement = 0.4* gamepad2.left_stick_y;
 
-        double linearSlidePower = lAxisMovement;
+        double lAxisMovement = 0.6* gamepad2.left_stick_y;
 
+
+
+        //movement
         double frontLeftPower = yAxisMovement - xAxisMovement - rAxisMovement;
         double frontRightPower = yAxisMovement + xAxisMovement + rAxisMovement;
         double backLeftPower = yAxisMovement + xAxisMovement - rAxisMovement;
@@ -84,10 +90,54 @@ public class Telemetry extends OpMode {
         frontRight.setPower(-0.7 * frontRightPower);
         backLeft.setPower(-0.7 * backLeftPower);
         backRight.setPower(-0.7 * backRightPower);
-//        if (linearSlideLeft.getCurrentPosition() < 10000) {
-//            linearSlideLeft.setPower(0.7 * linearSlidePower);
-//            linearSlideRight.setPower(0.7 * linearSlidePower);
-//        } else if (linearSlideLeft.getCurrentPosition() >= 10000) {
+
+        if (gamepad2.a) {
+            //a is toggle for downward linear slide movement
+            if (aPressed == 0) {
+                aPressed = 1;
+            } else {
+                aPressed = 0;
+            }
+        }
+
+
+        if (gamepad2.b) {
+            //claw.setPosition(clawMaximumPosition);
+        }
+
+        if (gamepad2.y) {
+            //claw.setPosition(clawMinimumPosition);
+        }
+
+
+
+
+
+
+//        if (aPressed == true) {
+//            linearSlideLeft.setPower(0.3);
+//            linearSlideRight.setPower(0.3);
+//        } else {
+//            linearSlideLeft.setPower(0.3*linearSlidePower);
+//            linearSlideRight.setPower(0.3*linearSlidePower);
+//        }
+        linearSlideLeft.setPower(0.3*(lAxisMovement + aPressed));
+        linearSlideRight.setPower(0.3*(lAxisMovement + aPressed));
+
+
+//        if (bPressed == true) {
+//            linearSlideLeft.setPower(-0.3);
+//            linearSlideRight.setPower(-0.3);
+//        } else {
+//            linearSlideLeft.setPower(0.3*linearSlidePower);
+//            linearSlideRight.setPower(0.3*linearSlidePower);
+//        }
+
+            //-1620 maximum linear slide extension
+//        if (linearSlideLeft.getCurrentPosition() >= -1620 && linearSlideLeft.getCurrentPosition() <= 1) {
+//            linearSlideLeft.setPower(0.3 * linearSlidePower);
+//            linearSlideRight.setPower(0.3 * linearSlidePower);
+//        } else  {
 //            linearSlideLeft.setPower(0);
 //            linearSlideRight.setPower(0);
 //        }
@@ -95,8 +145,14 @@ public class Telemetry extends OpMode {
         telemetry.addData("frontRight:", frontRight.getPower());
         telemetry.addData("backLeft	:", backLeft.getPower());
         telemetry.addData("backRight	:", backRight.getPower());
+        telemetry.addData("Left Slide Power	:", linearSlideLeft.getPower());
+        telemetry.addData("Right Slide Power	:", linearSlideRight.getPower());
+
+
         telemetry.addData("Left Slide Pos: ", linearSlideLeft.getCurrentPosition());
         telemetry.addData("Right Slide Pos: ", linearSlideRight.getCurrentPosition());
+
+        telemetry.addData("A Pressed :", aPressed);
 
 
 //        if (gamepad2.right_bumper) { //open claw
@@ -105,6 +161,20 @@ public class Telemetry extends OpMode {
 //            RenderNode.setPosition(Constants.closeVal);
 //        }
     }
+
+//    public void stop() {
+//        linearSlideLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        linearSlideRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        linearSlideLeft.setTargetPosition(-1600);
+//        linearSlideRight.setTargetPosition(-1600);
+//        linearSlideLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        linearSlideRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        linearSlideLeft.setPower(0.3);
+//        linearSlideRight.setPower(0.3);
+//        while (frontLeft.isBusy() && backRight.isBusy()) {
+//
+//        }
+//    }
 
     double ticksPerRotation = 537.7;
     double wheelDiameter = 3.779;

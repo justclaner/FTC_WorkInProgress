@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.processors.FirstVisionProcessor;
@@ -18,7 +19,8 @@ public class CameraRightRed extends OpMode {
     DcMotor frontRight = null;
     DcMotor backLeft = null;
     DcMotor backRight = null;
-
+    Servo clawLeft = null;
+    Servo clawRight = null;
     private FirstVisionProcessor visionProcessor;
 
     private VisionPortal visionPortal;
@@ -29,6 +31,16 @@ public class CameraRightRed extends OpMode {
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
+
+        clawLeft = hardwareMap.get(Servo.class, "clawLeft");
+        clawRight = hardwareMap.get(Servo.class, "clawRight");
+        clawLeft.setDirection(Servo.Direction.REVERSE);
+
+        clawLeft.scaleRange(0,1);
+        clawRight.scaleRange(0,1);
+
+        clawLeft.setPosition(0.34);
+        clawRight.setPosition(0.1);
 
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -44,47 +56,47 @@ public class CameraRightRed extends OpMode {
         telemetry.addData("Identified", visionProcessor.getSelection());
     }
 
-
+    double autoPower = 0.2;
     @Override
     public void start() {
         visionPortal.stopStreaming();
         telemetry.addData("Identified", visionProcessor.getSelection());
         switch (visionProcessor.getSelection()) {
             case LEFT:
-                move("Forward",18,0.4);
-                move("CC",15,0.4);
-                move("Forward",5,0.4);
-                move("Backward",5,0.4);
-                move("C",15,0.4);
-                move("Forward",35,0.4);
-                move("Right",65,0.4);
-                move("C", 55, 0.4);
-                move("Left",40,0.4);
-                move("CC", 20, 0.4);
+                move("Forward",18,autoPower);
+                move("CC",15,autoPower);
+                move("Forward",5,autoPower);
+                move("Backward",5,autoPower);
+                move("C",15,autoPower);
+                move("Forward",35,autoPower);
+                move("Right",65,autoPower);
+                move("C", 55, autoPower);
+                move("Left",40,autoPower);
+                move("CC", 20, autoPower);
                 break;
             case MIDDLE:
-                move("Forward",28,0.4);
-                move("Backward",10,0.4);
-                move("Left",20,0.4);
-                move("Forward",40,0.4);
-                move("Right",70,0.4);
-                move("C", 55, 0.4);
-                move("Left",50,0.4);
-                move("Forward", 15, 0.4);
-                move("Left",10,0.4);
+                move("Forward",28,autoPower);
+                move("Backward",10,autoPower);
+                move("Left",20,autoPower);
+                move("Forward",40,autoPower);
+                move("Right",70,autoPower);
+                move("C", 55, autoPower);
+                move("Left",50,autoPower);
+                move("Forward", 15, autoPower);
+                move("Left",10,autoPower);
                 break;
             case RIGHT:
-                move("Forward",18,0.4);
-                move("C",20,0.4);
-                move("Forward",6,0.4);
-                move("Backward",6,0.4);
-                move("CC",20,0.4);
-                move("Forward",35,0.4);
-                move("Right",70,0.4);
-                move("C", 55, 0.4);
-                move("Left",40,0.4);
-                move("Forward", 20, 0.4);
-                move("Left",10,0.4);
+                move("Forward",18,autoPower);
+                move("C",20,autoPower);
+                move("Forward",6,autoPower);
+                move("Backward",6,autoPower);
+                move("CC",20,autoPower);
+                move("Forward",35,autoPower);
+                move("Right",70,autoPower);
+                move("C", 55, autoPower);
+                move("Left",40,autoPower);
+                move("Forward", 20, autoPower);
+                move("Left",10,autoPower);
                 break;
             case NONE:
                 break;

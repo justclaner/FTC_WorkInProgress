@@ -20,10 +20,12 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
+
+//640x480
 public class FirstVisionProcessor implements VisionProcessor {
-public Rect rectLeft = new Rect(0, 240, 180, 200);
-public Rect rectMiddle = new Rect(195, 240, 240, 200);
-public Rect rectRight = new Rect(450, 240, 175, 200);
+public Rect rectLeft = new Rect(0, 370, 160, 100); //height originally 100
+public Rect rectMiddle = new Rect(245, 360, 160, 60);
+public Rect rectRight = new Rect(480, 370, 160, 100);
 Selected selection = Selected.NONE;
 
 Mat submat = new Mat();

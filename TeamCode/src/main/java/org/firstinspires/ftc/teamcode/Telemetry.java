@@ -29,8 +29,8 @@ public class Telemetry extends OpMode {
 
     Servo clawRight;  //0
 
-    //Servo arm;
-
+    Servo armLeft;    //2
+    Servo armRight; //3
     @Override
     public void init() {
 
@@ -47,14 +47,23 @@ public class Telemetry extends OpMode {
 
       clawLeft = hardwareMap.get(Servo.class, "clawLeft");
       clawRight = hardwareMap.get(Servo.class, "clawRight");
+        armLeft = hardwareMap.get(Servo.class, "armLeft");
+        armRight = hardwareMap.get(Servo.class, "armRight");
+
+        armLeft.setDirection(Servo.Direction.REVERSE);
         clawLeft.setDirection(Servo.Direction.REVERSE);
+
       clawLeft.scaleRange(0,1);
       clawRight.scaleRange(0,1);
+      armLeft.scaleRange(0,1);
+      armRight.scaleRange(0,1);
 
       clawLeft.setPosition(0.34);
       clawRight.setPosition(0.1);
-        //arm = hardwareMap.get(Servo.class, "arm");
 
+
+
+//        armRight.setPosition(1);
         frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -89,7 +98,7 @@ public class Telemetry extends OpMode {
 
         double xAxisMovement = gamepad1.left_stick_x;
         double yAxisMovement = gamepad1.left_stick_y;
-        double rAxisMovement = 0.6*gamepad1.right_stick_x;
+        double rAxisMovement = gamepad1.right_stick_x;
         double lAxisMovement = 0.6* gamepad2.left_stick_y;
         double aAxisMovement = 0.05*gamepad2.right_stick_y;
 
@@ -110,10 +119,12 @@ public class Telemetry extends OpMode {
         double backLeftPower = yAxisMovement + xAxisMovement - rAxisMovement;
         double backRightPower = yAxisMovement - xAxisMovement + rAxisMovement;
 
-        frontLeft.setPower(-0.5* frontLeftPower);
-        frontRight.setPower(-0.5 * frontRightPower);
-        backLeft.setPower(-0.5 * backLeftPower);
-        backRight.setPower(-0.5 * backRightPower);
+        //0.5 originally
+        double multiplier = -0.7;
+        frontLeft.setPower(multiplier * frontLeftPower);
+        frontRight.setPower(multiplier * frontRightPower);
+        backLeft.setPower(multiplier * backLeftPower);
+        backRight.setPower(multiplier * backRightPower);
 
 
 
@@ -131,26 +142,33 @@ public class Telemetry extends OpMode {
 
 
 
-        if (gamepad2.x) {
+        if (gamepad1.x) {
         clawRight.setPosition(0.1);
-          clawLeft.setPosition(0.34);
+        clawLeft.setPosition(0.34);
         }
 
-        if (gamepad2.y) {
-
-          clawLeft.setPosition(0.5);
-          clawRight.setPosition(0.27);
+        if (gamepad1.y) {
+          clawLeft.setPosition(0.55);
+          clawRight.setPosition(0.32);
         }
-            armPosition += aAxisMovement;
+//            armPosition += aAxisMovement;
             //arm.setPosition(armPosition);
 
+        if (gamepad2.left_bumper) {
+            armLeft.setPosition(0);
+            armRight.setPosition(0);
+        }
+        if (gamepad2.right_bumper) {
+            armLeft.setPosition(1);
+            armRight.setPosition(1);
+        }
         
 
 
 
 
-        linearSlideLeft.setPower(0.3*(lAxisMovement + a2Pressed));
-        linearSlideRight.setPower(0.3*(lAxisMovement + a2Pressed));
+        linearSlideLeft.setPower(0.4*(lAxisMovement + a2Pressed));
+        linearSlideRight.setPower(0.4*(lAxisMovement + a2Pressed));
 
 
 
@@ -171,8 +189,10 @@ public class Telemetry extends OpMode {
         telemetry.addData("Left Slide Pos", linearSlideLeft.getCurrentPosition());
         telemetry.addData("Right Slide Pos", linearSlideRight.getCurrentPosition());
         telemetry.addData("Linear Slide Status (Suspend)", linearSlideStatus);
-        telemetry.addData("RightServo Position", clawRight.getPosition());
-        telemetry.addData("LeftServo Position", clawLeft.getPosition());
+        telemetry.addData("clawArm Position", clawRight.getPosition());
+        telemetry.addData("clawArm Position", clawLeft.getPosition());
+        telemetry.addData("rightArm Position", armRight.getPosition());
+        telemetry.addData("leftArm Position", armLeft.getPosition());
         telemetry.update();
 
 //        if (gamepad2.right_bumper) { //open claw

@@ -39,8 +39,7 @@ public class CameraBlueRight extends OpMode {
         clawLeft.scaleRange(0,1);
         clawRight.scaleRange(0,1);
 
-        clawLeft.setPosition(0.34);
-        clawRight.setPosition(0.1);
+        closeClaw();
 
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -56,34 +55,43 @@ public class CameraBlueRight extends OpMode {
         telemetry.addData("Identified", visionProcessor.getSelection());
     }
 
-    double autoPower = 0.2;
+    double autoPower = 0.25;
     @Override
     public void start() {
         visionPortal.stopStreaming();
         telemetry.addData("Identified", visionProcessor.getSelection());
         switch (visionProcessor.getSelection()) {
             case LEFT:
-                move("Forward",18,autoPower);
-                move("CC",15,autoPower);
-                move("Forward",4.5,autoPower);
-                move("Backward",4.5,autoPower);
-                move("C",15,autoPower);
-                move("Backward",5,autoPower);
-                move("Left",40,autoPower);
+                move("Backward",12,autoPower);
+                move("Right",11.5,autoPower); //test this again
+                move("Backward",9,autoPower);
+                move("Forward",5.5,autoPower);
+                move("Right",40,autoPower);
+
+//                move("Forward",12,autoPower);
+//                move("Left",11.5,autoPower); //test this again
+//                move("Forward",9,autoPower);
+//                openClaw();
+//                move("Backward",5.5,autoPower);
+//                move("Left",40,autoPower);
                 break;
             case MIDDLE:
-                move("Forward",27.2,autoPower);
-                move("Backward",10,autoPower);
-                move("Left",30,autoPower);
+                move("Backward",29,autoPower);
+                openClaw();
+                move("Forward",10,autoPower);
+                move("Right",40,0.4);
                 break;
             case RIGHT:
-                move("Forward",18,autoPower);
-                move("C",15,autoPower);
-                move("Forward",8.5,autoPower);
-                move("Backward",8.5,autoPower);
-                move("CC",15,autoPower);
-                move("Backward",5,autoPower);
-                move("Left",40,autoPower);
+                move("Backward",30,autoPower);
+                move("C",26,0.25);
+                move("Backward",3.5,autoPower);
+                move("Forward",40,autoPower);
+
+//                move("Forward",25,autoPower);
+//                move("C",26,autoPower);
+//                move("Forward",3.5,autoPower);
+//                openClaw();
+//                move("Backward",40,autoPower);
                 break;
             case NONE:
                 break;
@@ -114,6 +122,19 @@ public class CameraBlueRight extends OpMode {
                 break;
             case "CC":
                 targetCC(inches);
+                break;
+            case "NE":
+                targetNE(inches);
+                break;
+            case "NW":
+                targetNW(inches);
+                break;
+            case "SE":
+                targetSE(inches);
+                break;
+            case "SW":
+                targetSW(inches);
+                break;
         }
         setRunToPosition();
 
@@ -135,6 +156,18 @@ public class CameraBlueRight extends OpMode {
                 break;
             case "CC":
                 rotateCC(power);
+                break;
+            case "NE":
+                driveNE(power);
+                break;
+            case "NW":
+                driveNW(power);
+                break;
+            case "SE":
+                driveSE(power);
+                break;
+            case "SW":
+                driveSW(power);
                 break;
         }
         whileActive();
@@ -210,12 +243,38 @@ public class CameraBlueRight extends OpMode {
         backLeft.setTargetPosition(mathTicks(-inches));
         backRight.setTargetPosition(mathTicks(inches));
     }
+    public void targetNE (double inches) {
+        frontLeft.setTargetPosition(mathTicks(inches));
+        frontRight.setTargetPosition(mathTicks(0));
+        backLeft.setTargetPosition(mathTicks(0));
+        backRight.setTargetPosition(mathTicks(inches));
+    }
+
+    public void targetNW (double inches) {
+        frontLeft.setTargetPosition(mathTicks(0));
+        frontRight.setTargetPosition(mathTicks(inches));
+        backLeft.setTargetPosition(mathTicks(inches));
+        backRight.setTargetPosition(mathTicks(0));
+    }
+    public void targetSE (double inches) {
+        frontLeft.setTargetPosition(mathTicks(0));
+        frontRight.setTargetPosition(mathTicks(-inches));
+        backLeft.setTargetPosition(mathTicks(-inches));
+        backRight.setTargetPosition(mathTicks(0));
+    }
+    public void targetSW (double inches) {
+        frontLeft.setTargetPosition(mathTicks(-inches));
+        frontRight.setTargetPosition(mathTicks(0));
+        backLeft.setTargetPosition(mathTicks(0));
+        backRight.setTargetPosition(mathTicks(-inches));
+    }
     public void driveForward(double power) {
         frontLeft.setPower(power);
         frontRight.setPower(power);
         backLeft.setPower(power);
         backRight.setPower(power);
     }
+
     public void stopDriving(){
         frontLeft.setPower(0);
         frontRight.setPower(0);
@@ -253,6 +312,41 @@ public class CameraBlueRight extends OpMode {
         backRight.setPower(power);
     }
 
+    public void driveNE(double power) {
+        frontLeft.setPower(power);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(power);
+    }
+
+    public void driveNW(double power) {
+        frontLeft.setPower(0);
+        frontRight.setPower(power);
+        backLeft.setPower(power);
+        backRight.setPower(0);
+    }
+
+    public void driveSE(double power) {
+        frontLeft.setPower(0);
+        frontRight.setPower(-power);
+        backLeft.setPower(-power);
+        backRight.setPower(0);
+    }
+
+    public void driveSW(double power) {
+        frontLeft.setPower(-power);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(-power);
+    }
+    public void openClaw() {
+        clawLeft.setPosition(0.34);
+        clawRight.setPosition(0.1);
+    }
+    public void closeClaw() {
+        clawLeft.setPosition(0.55);
+        clawRight.setPosition(0.32);
+    }
     public int mathTicks(double inches) {
         double raw = Math.round(inches*537.7/(3.779*3.14));
         return (int)raw;
@@ -260,5 +354,13 @@ public class CameraBlueRight extends OpMode {
     public double mathInches(int ticks){
         double raw= Math.round(ticks*(3.779*Math.PI)/537.7);
         return (double)raw;
+    }
+
+    public void stopRobot(double seconds) {
+        try {
+            Thread.sleep((long)(seconds*1000));
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

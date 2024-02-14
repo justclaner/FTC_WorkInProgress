@@ -74,6 +74,8 @@ public class CameraBlueLeft extends OpMode {
                 move("Right",20,autoPower);
                 move("Backward",10,autoPower);
 
+                //hi
+
 //                move("Forward",26.5,autoPower);
 //                move("CC",25,autoPower);
 //                move("Forward",5.5,autoPower);

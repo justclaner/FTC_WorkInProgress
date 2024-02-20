@@ -79,10 +79,14 @@ public class Telemetry extends OpMode {
 
 
         //originally only backLeft reverse
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        linearSlideRight.setDirection(DcMotorSimple.Direction.REVERSE); // or right
+       // frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        //backRight.setDirection(DcMotorSimple.Direction.REVERSE);
+       backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+       frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+
+      //  linearSlideRight.setDirection(DcMotorSimple.Direction.REVERSE); // or right
+        linearSlideLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
     }

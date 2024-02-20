@@ -24,7 +24,7 @@ import org.opencv.imgproc.Imgproc;
 //640x480
 public class FirstVisionProcessor implements VisionProcessor {
 public Rect rectLeft = new Rect(0, 370, 160, 100); //height originally 100
-public Rect rectMiddle = new Rect(245, 360, 160, 60);
+public Rect rectMiddle = new Rect(245, 350, 160, 70);
 public Rect rectRight = new Rect(480, 370, 160, 100);
 Selected selection = Selected.NONE;
 

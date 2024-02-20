@@ -39,8 +39,8 @@ public class CameraBlueLeft extends OpMode {
         clawLeft.scaleRange(0,1);
         clawRight.scaleRange(0,1);
 
-        closeClaw();
-
+//        closeClaw();
+            openClaw();
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         visionProcessor = new FirstVisionProcessor();
@@ -66,7 +66,7 @@ public class CameraBlueLeft extends OpMode {
             case LEFT:
                 move("Backward",26.5,autoPower);
                 move("CC",25,autoPower);
-                move("Backward",5.5,autoPower);
+                move("Backward",4.5,autoPower);
 
                 move("Forward",10,autoPower);
                 move("Left",30,autoPower);
@@ -91,7 +91,7 @@ public class CameraBlueLeft extends OpMode {
 
                 break;
             case MIDDLE:
-                move("Backward",27.5,autoPower);
+                move("Backward",28,autoPower);
 
                 move ("Forward", 10,autoPower);
                 move("Left",20,0.4);
@@ -106,7 +106,7 @@ public class CameraBlueLeft extends OpMode {
                 break;
             case RIGHT:
                 move("Backward",12,autoPower);
-                move("Left",13.5,autoPower); //test this again
+                move("Left",13,autoPower); //test this again
                 move("Backward",9,autoPower);
 
                 move("Forward",5.5,autoPower);

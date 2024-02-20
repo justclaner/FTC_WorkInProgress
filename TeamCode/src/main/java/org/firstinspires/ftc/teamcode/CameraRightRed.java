@@ -39,7 +39,8 @@ public class CameraRightRed extends OpMode {
         clawLeft.scaleRange(0,1);
         clawRight.scaleRange(0,1);
 
-        closeClaw();
+//        closeClaw();
+        openClaw();
 
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -67,10 +68,11 @@ public class CameraRightRed extends OpMode {
                 move("Backward",9,autoPower);
 
                 move("Forward",5.5,autoPower);
-                move("Right",14,autoPower);
-                move("Backward",40,autoPower);
+                move("Right",13,autoPower);
+                move("Backward",41,autoPower);
+                stopRobot(6);
                 move("Left",115,autoPower);
-                move("Forward",20,autoPower);
+                move("Forward",10,autoPower);
                 move("Left",10,autoPower);
 
 //                move("Forward",12,autoPower);
@@ -87,13 +89,14 @@ public class CameraRightRed extends OpMode {
 
                 break;
             case MIDDLE:
-                move("Backward",27,autoPower);
+                move("Backward",28,autoPower);
 
                 move("Forward", 10,autoPower);
                 move("Right",20,0.4);
-                move("Backward",40,autoPower);
+                move("Backward",39,autoPower);
+                stopRobot(6);
                 move("Left",110,autoPower);
-                move("Backward",20,autoPower);
+                move("Forward",10,autoPower);
                 move("Left",20,autoPower);
 
 //                move("Forward",27,autoPower);
@@ -109,13 +112,14 @@ public class CameraRightRed extends OpMode {
                 break;
             case RIGHT:
                 move("Backward",25,autoPower);
-                move("C",26,autoPower);
-                move("Backward",2.5, autoPower);
+                move("C",26.5,autoPower);
+                move("Backward",2, autoPower);
 
                 move("Forward",10,autoPower);
-                move("Right",30,autoPower);
+                move("Right",26.5,autoPower);
+                stopRobot(6);
                 move("Backward",90,autoPower);
-                move("Left",20,autoPower);
+                move("Left",10,autoPower);
                 move("Backward",10,autoPower);
 
 //                move("Forward",25,autoPower);

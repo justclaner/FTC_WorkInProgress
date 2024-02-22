@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.processors.FirstVisionProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 
@@ -75,10 +76,21 @@ public class CameraLeftRed extends OpMode {
     double autoPower = 0.25;
     @Override
     public void start() {
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+
+        Pose2d startPose = new Pose2d(10,-58.5,Math.toRadians(90));
+        drive.setPoseEstimate(startPose);
+
+        Trajectory traj1 = drive.trajectoryBuilder(startPose,true)
+                .splineTo(new Vector2d(-30,-30),Math.toRadians(180))
+                .splineTo(new Vector2d(35,35),0)
+                .build();
+
         visionPortal.stopStreaming();
         telemetry.addData("Identified", visionProcessor.getSelection());
         switch (visionProcessor.getSelection()) {
             case LEFT:
+                drive.followTrajectory(traj1);
                 move("Backward",26.5,autoPower);
                 move("CC",25,autoPower);
                 move("Backward",3,autoPower);
@@ -92,6 +104,7 @@ public class CameraLeftRed extends OpMode {
 
                 break;
             case MIDDLE:
+                drive.followTrajectory(traj1);
                 move("Backward", 28, autoPower);
                 move("Forward",14,autoPower);
                 move("Left",40,0.4);
@@ -103,6 +116,7 @@ public class CameraLeftRed extends OpMode {
 
                 break;
             case RIGHT:
+                drive.followTrajectory(traj1);
                 move("Backward",12,autoPower);
                 move("Left",12.5,autoPower); //test this again
                 move("Backward",9,autoPower);

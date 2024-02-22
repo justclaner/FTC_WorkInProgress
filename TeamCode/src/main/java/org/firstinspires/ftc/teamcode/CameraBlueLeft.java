@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.processors.FirstVisionProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 
@@ -55,7 +56,10 @@ public class CameraBlueLeft extends OpMode {
         visionPortal = VisionPortal.easyCreateWithDefaults(
                 hardwareMap.get(WebcamName.class, "Camera"), visionProcessor);
 
+
         setRunUsingEncoders();
+
+
     }
 
     @Override
@@ -67,12 +71,18 @@ public class CameraBlueLeft extends OpMode {
 
     @Override
     public void start() {
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+
+        Pose2d startPose = new Pose2d(10,-58.5,Math.toRadians(90)); //change
+        drive.setPoseEstimate(startPose);
+
 //        double startTime = System.currentTimeMillis();
         visionPortal.stopStreaming();
         telemetry.addData("Identified", visionProcessor.getSelection());
         switch (visionProcessor.getSelection()) {
             case LEFT:
 //                linearSlideMove(10,0.2);
+
                 move("Backward",26.5,autoPower);
                 move("CC",25,autoPower);
                 move("Backward",4.5,autoPower);

@@ -19,6 +19,8 @@ public class CameraBlueLeft extends OpMode {
     DcMotor frontRight = null;
     DcMotor backLeft = null;
     DcMotor backRight = null;
+    DcMotor linearSlideLeft = null;  // 0
+    DcMotor linearSlideRight = null; // 1
     Servo clawLeft = null;
     Servo clawRight = null;
     private FirstVisionProcessor visionProcessor;
@@ -32,10 +34,13 @@ public class CameraBlueLeft extends OpMode {
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
 
+        linearSlideLeft = hardwareMap.get(DcMotor.class, "linearSlideLeft");
+        linearSlideRight = hardwareMap.get(DcMotor.class, "linearSlideRight");
+
         clawLeft = hardwareMap.get(Servo.class, "clawLeft");
         clawRight = hardwareMap.get(Servo.class, "clawRight");
         clawLeft.setDirection(Servo.Direction.REVERSE);
-
+        linearSlideRight.setDirection(DcMotorSimple.Direction.REVERSE);
         clawLeft.scaleRange(0,1);
         clawRight.scaleRange(0,1);
 
@@ -64,6 +69,7 @@ public class CameraBlueLeft extends OpMode {
         telemetry.addData("Identified", visionProcessor.getSelection());
         switch (visionProcessor.getSelection()) {
             case LEFT:
+//                linearSlideMove(10,0.2);
                 move("Backward",26.5,autoPower);
                 move("CC",25,autoPower);
                 move("Backward",4.5,autoPower);
@@ -91,6 +97,7 @@ public class CameraBlueLeft extends OpMode {
 
                 break;
             case MIDDLE:
+//                linearSlideMove(10,0.2);
                 move("Backward",28,autoPower);
 
                 move ("Forward", 10,autoPower);
@@ -105,6 +112,7 @@ public class CameraBlueLeft extends OpMode {
 
                 break;
             case RIGHT:
+//                linearSlideMove(10,0.2);
                 move("Backward",12,autoPower);
                 move("Left",13,autoPower); //test this again
                 move("Backward",9,autoPower);
@@ -209,7 +217,7 @@ public class CameraBlueLeft extends OpMode {
         whileActive();
         }
     public void whileActive() {
-        while (frontLeft.isBusy() && backRight.isBusy()) {
+        while ((frontLeft.isBusy() && backRight.isBusy()) || linearSlideLeft.isBusy()) {
             telemetry.addData("frontLeft	:", mathInches(frontLeft.getCurrentPosition()));
             telemetry.addData("frontRight:", mathInches(frontRight.getCurrentPosition()));
             telemetry.addData("backLeft	:", mathInches(backLeft.getCurrentPosition()));
@@ -229,6 +237,8 @@ public class CameraBlueLeft extends OpMode {
         frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        linearSlideLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        linearSlideRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
 
@@ -237,6 +247,8 @@ public class CameraBlueLeft extends OpMode {
         frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        linearSlideLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        linearSlideRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
     public void targetForward(double inches) {
         frontLeft.setTargetPosition(mathTicks(inches));
@@ -380,6 +392,19 @@ public class CameraBlueLeft extends OpMode {
     public void closeClaw() {
         clawLeft.setPosition(0.55);
         clawRight.setPosition(0.32);
+    }
+
+    public void linearSlideMove(double inches, double power) {
+        resetEncoders();
+        linearSlideLeft.setTargetPosition(mathTicks(inches));
+        linearSlideRight.setTargetPosition(mathTicks(inches));
+
+        linearSlideLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        linearSlideRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        linearSlideLeft.setPower(power);
+        linearSlideLeft.setPower(power);
+        whileActive();
     }
     public int mathTicks(double inches) {
         double raw = Math.round(inches*537.7/(3.779*3.14));

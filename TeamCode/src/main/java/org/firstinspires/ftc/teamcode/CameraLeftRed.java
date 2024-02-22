@@ -22,7 +22,8 @@ public class CameraLeftRed extends OpMode {
 
     Servo clawLeft = null;
     Servo clawRight = null;
-
+    DcMotor linearSlideLeft = null;  // 0
+    DcMotor linearSlideRight = null; // 1
 
     private FirstVisionProcessor visionProcessor;
 
@@ -34,10 +35,18 @@ public class CameraLeftRed extends OpMode {
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
-    //claw code
+
+        linearSlideLeft = hardwareMap.get(DcMotor.class, "linearSlideLeft");
+        linearSlideRight = hardwareMap.get(DcMotor.class, "linearSlideRight");
+
+
+        //claw code
         clawLeft = hardwareMap.get(Servo.class, "clawLeft");
         clawRight = hardwareMap.get(Servo.class, "clawRight");
+
         clawLeft.setDirection(Servo.Direction.REVERSE);
+        linearSlideLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+
 
         clawLeft.scaleRange(0,1);
         clawRight.scaleRange(0,1);
@@ -181,7 +190,7 @@ public class CameraLeftRed extends OpMode {
         whileActive();
         }
     public void whileActive() {
-        while (frontLeft.isBusy() && backRight.isBusy()) {
+        while ((frontLeft.isBusy() && backRight.isBusy()) || linearSlideLeft.isBusy()) {
             telemetry.addData("frontLeft	:", mathInches(frontLeft.getCurrentPosition()));
             telemetry.addData("frontRight:", mathInches(frontRight.getCurrentPosition()));
             telemetry.addData("backLeft	:", mathInches(backLeft.getCurrentPosition()));
@@ -209,6 +218,8 @@ public class CameraLeftRed extends OpMode {
         frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        linearSlideLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        linearSlideRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
     public void targetForward(double inches) {
         frontLeft.setTargetPosition(mathTicks(inches));
@@ -353,6 +364,19 @@ public class CameraLeftRed extends OpMode {
     public void closeClaw() {
         clawLeft.setPosition(0.55);
         clawRight.setPosition(0.32);
+    }
+
+    public void linearSlideMove(double inches, double power) {
+        resetEncoders();
+        linearSlideLeft.setTargetPosition(mathTicks(inches));
+        linearSlideRight.setTargetPosition(mathTicks(inches));
+
+        linearSlideLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        linearSlideRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        linearSlideLeft.setPower(power);
+        linearSlideLeft.setPower(power);
+        whileActive();
     }
 
     public int mathTicks(double inches) {

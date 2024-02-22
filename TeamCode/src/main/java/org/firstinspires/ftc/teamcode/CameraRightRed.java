@@ -12,6 +12,9 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.processors.FirstVisionProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 @Autonomous(name = "Camera Red (Truss on Right)")
 public class CameraRightRed extends OpMode {
 
@@ -40,7 +43,7 @@ public class CameraRightRed extends OpMode {
         clawLeft = hardwareMap.get(Servo.class, "clawLeft");
         clawRight = hardwareMap.get(Servo.class, "clawRight");
         clawLeft.setDirection(Servo.Direction.REVERSE);
-        linearSlideLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        linearSlideRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         clawLeft.scaleRange(0,1);
         clawRight.scaleRange(0,1);

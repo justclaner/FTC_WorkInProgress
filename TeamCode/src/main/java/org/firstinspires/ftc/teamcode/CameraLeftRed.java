@@ -34,8 +34,21 @@ public class CameraLeftRed extends OpMode {
 
     private VisionPortal visionPortal;
 
+
+    SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+    Pose2d startPose = new Pose2d(12,-60,Math.toRadians(90));
+    Trajectory traj1 = drive.trajectoryBuilder(startPose,true)
+            .lineToLinearHeading(new Pose2d(12,-10,0))
+            .build();
+
+    Trajectory traj2 = drive.trajectoryBuilder(traj1.end())
+            .splineTo(new Vector2d(30,40),0)
+            .build();
+
     @Override
     public void init() {
+
+
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
@@ -66,6 +79,9 @@ public class CameraLeftRed extends OpMode {
                 hardwareMap.get(WebcamName.class, "Camera"), visionProcessor);
 
         setRunUsingEncoders();
+
+
+
     }
 
     @Override
@@ -74,23 +90,17 @@ public class CameraLeftRed extends OpMode {
     }
 
     double autoPower = 0.25;
+
     @Override
     public void start() {
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-
-        Pose2d startPose = new Pose2d(10,-58.5,Math.toRadians(90));
         drive.setPoseEstimate(startPose);
-
-        Trajectory traj1 = drive.trajectoryBuilder(startPose,true)
-                .splineTo(new Vector2d(-30,-30),Math.toRadians(180))
-                .splineTo(new Vector2d(35,35),0)
-                .build();
 
         visionPortal.stopStreaming();
         telemetry.addData("Identified", visionProcessor.getSelection());
         switch (visionProcessor.getSelection()) {
             case LEFT:
                 drive.followTrajectory(traj1);
+                drive.followTrajectory(traj2);
                 move("Backward",26.5,autoPower);
                 move("CC",25,autoPower);
                 move("Backward",3,autoPower);
@@ -105,6 +115,7 @@ public class CameraLeftRed extends OpMode {
                 break;
             case MIDDLE:
                 drive.followTrajectory(traj1);
+                drive.followTrajectory(traj2);
                 move("Backward", 28, autoPower);
                 move("Forward",14,autoPower);
                 move("Left",40,0.4);
@@ -117,6 +128,7 @@ public class CameraLeftRed extends OpMode {
                 break;
             case RIGHT:
                 drive.followTrajectory(traj1);
+                drive.followTrajectory(traj2);
                 move("Backward",12,autoPower);
                 move("Left",12.5,autoPower); //test this again
                 move("Backward",9,autoPower);

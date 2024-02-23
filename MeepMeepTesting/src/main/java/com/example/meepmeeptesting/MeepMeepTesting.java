@@ -10,9 +10,9 @@ public class MeepMeepTesting {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(600);
         Pose2d redLeft = new Pose2d(12,-63,Math.toRadians(90));
-        Pose2d redRight = new Pose2d(-36,-63,Math.toRadians(90));
-        Pose2d blueLeft = new Pose2d(-36,63,Math.toRadians(-90));
-        Pose2d blueRight = new Pose2d(12,63,Math.toRadians(-90));
+        Pose2d redRight1 = new Pose2d(-36,-63,Math.toRadians(90));
+        Pose2d blueLeft1 = new Pose2d(-36,63,Math.toRadians(-90));
+        Pose2d blueRight1 = new Pose2d(12,63,Math.toRadians(-90));
 //commit
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width

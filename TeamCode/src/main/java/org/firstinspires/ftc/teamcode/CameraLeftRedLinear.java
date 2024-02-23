@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
 
-
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -13,12 +16,8 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.processors.FirstVisionProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 
-import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
-
-@Autonomous(name = "Camera Red (Truss on Left)")
-public class CameraLeftRed extends OpMode {
+@Autonomous(name = "Camera Red Linear(Truss on Left)")
+public class CameraLeftRedLinear extends LinearOpMode {
 
     DcMotor frontLeft = null;
     DcMotor frontRight = null;
@@ -38,7 +37,7 @@ public class CameraLeftRed extends OpMode {
 
 
     @Override
-    public void init() {
+    public void runOpMode() {
 
 
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
@@ -72,21 +71,10 @@ public class CameraLeftRed extends OpMode {
 
         setRunUsingEncoders();
 
-
-
-    }
-
-    @Override
-    public void init_loop() {
         telemetry.addData("Identified", visionProcessor.getSelection());
-    }
 
-    double autoPower = 0.25;
-
-    @Override
-    public void start() {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        Pose2d startPose = new Pose2d(12,-65,Math.toRadians(-90));
+        Pose2d startPose = new Pose2d(12,-63,Math.toRadians(-90));
         drive.setPoseEstimate(startPose);
 
         Trajectory traj1 = drive.trajectoryBuilder(startPose,true)
@@ -94,8 +82,11 @@ public class CameraLeftRed extends OpMode {
                 .build();
 
         Trajectory traj2 = drive.trajectoryBuilder(traj1.end())
-                .splineTo(new Vector2d(30,40),0)
+                .splineTo(new Vector2d(30,47),0)
                 .build();
+
+        waitForStart();
+
 
 
         visionPortal.stopStreaming();
@@ -103,11 +94,13 @@ public class CameraLeftRed extends OpMode {
         switch (visionProcessor.getSelection()) {
             case LEFT:
                 drive.followTrajectory(traj1);
+                stopRobot(1);
                 drive.followTrajectory(traj2);
-                move("Backward",26.5,autoPower);
-                move("CC",25,autoPower);
-                move("Backward",3,autoPower);
-                move("Forward",40,autoPower);
+
+//                move("Backward",26.5,autoPower);
+//                move("CC",25,autoPower);
+//                move("Backward",3,autoPower);
+//                move("Forward",40,autoPower);
 
 //                move("Forward",26.5,autoPower);
 //                move("CC",25,autoPower);
@@ -117,8 +110,8 @@ public class CameraLeftRed extends OpMode {
 
                 break;
             case MIDDLE:
-                drive.followTrajectory(traj1);
-                drive.followTrajectory(traj2);
+//                drive.followTrajectory(traj1);
+//                drive.followTrajectory(traj2);
                 move("Backward", 28, autoPower);
                 move("Forward",14,autoPower);
                 move("Left",40,0.4);
@@ -130,8 +123,8 @@ public class CameraLeftRed extends OpMode {
 
                 break;
             case RIGHT:
-                drive.followTrajectory(traj1);
-                drive.followTrajectory(traj2);
+//                drive.followTrajectory(traj1);
+//                drive.followTrajectory(traj2);
                 move("Backward",12,autoPower);
                 move("Left",12.5,autoPower); //test this again
                 move("Backward",9,autoPower);
@@ -148,9 +141,8 @@ public class CameraLeftRed extends OpMode {
         }
     }
 
-    @Override
-    public void loop() {
-    }
+
+    double autoPower = 0.25;
 
     public void move(String direction, double inches, double power) {
         resetEncoders();

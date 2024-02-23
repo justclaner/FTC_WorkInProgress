@@ -18,7 +18,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 @Autonomous(name = "Camera Blue (Truss on Left)")
 public class CameraBlueLeft extends OpMode {
-//commit
+//commit 2
     DcMotor frontLeft = null;
     DcMotor frontRight = null;
     DcMotor backLeft = null;

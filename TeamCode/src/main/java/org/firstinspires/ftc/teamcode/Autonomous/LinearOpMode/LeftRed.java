@@ -1,36 +1,45 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Autonomous.LinearOpMode;
 
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.processors.FirstVisionProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 
-@Autonomous(name = "Camera Blue Linear (Truss on Left)")
-public class CameraBlueLeftLinear extends LinearOpMode {
-//commit 3
+@Autonomous(name = "Camera Red Linear (Truss on Left)")
+public class LeftRed extends LinearOpMode {
+
     DcMotor frontLeft = null;
     DcMotor frontRight = null;
     DcMotor backLeft = null;
     DcMotor backRight = null;
-    DcMotor linearSlideLeft = null;  // 0
-    DcMotor linearSlideRight = null; // 1
+
     Servo clawLeft = null;
     Servo clawRight = null;
+    DcMotor linearSlideLeft = null;  // 0
+    DcMotor linearSlideRight = null; // 1
+
     private FirstVisionProcessor visionProcessor;
 
     private VisionPortal visionPortal;
 
+
+
+
     @Override
     public void runOpMode() {
+
+
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
@@ -39,122 +48,104 @@ public class CameraBlueLeftLinear extends LinearOpMode {
         linearSlideLeft = hardwareMap.get(DcMotor.class, "linearSlideLeft");
         linearSlideRight = hardwareMap.get(DcMotor.class, "linearSlideRight");
 
+
+        //claw code
         clawLeft = hardwareMap.get(Servo.class, "clawLeft");
         clawRight = hardwareMap.get(Servo.class, "clawRight");
+
         clawLeft.setDirection(Servo.Direction.REVERSE);
         linearSlideRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
+
         clawLeft.scaleRange(0,1);
         clawRight.scaleRange(0,1);
 
 //        closeClaw();
-            openClaw();
+        openClaw();
+
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         visionProcessor = new FirstVisionProcessor();
         visionPortal = VisionPortal.easyCreateWithDefaults(
                 hardwareMap.get(WebcamName.class, "Camera"), visionProcessor);
 
-
         setRunUsingEncoders();
+
         telemetry.addData("Identified", visionProcessor.getSelection());
 
-
-
-
-
-    double autoPower = 0.25;
-
-
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-
-        Pose2d startPose = new Pose2d(10,-58.5,Math.toRadians(90)); //change
+        Pose2d startPose = new Pose2d(12,-63,Math.toRadians(-90));
         drive.setPoseEstimate(startPose);
 
-        //trajectories here
+        Trajectory traj1 = drive.trajectoryBuilder(startPose,true)
+                .lineToLinearHeading(new Pose2d(12,-10,0))
+                .build();
 
+        Trajectory traj2 = drive.trajectoryBuilder(traj1.end())
+                .splineTo(new Vector2d(30,47),0,
+                        SampleMecanumDrive.getVelocityConstraint(15, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .build();
 
         waitForStart();
+
 
 
         visionPortal.stopStreaming();
         telemetry.addData("Identified", visionProcessor.getSelection());
         switch (visionProcessor.getSelection()) {
             case LEFT:
-//                linearSlideMove(10,0.2);
+                drive.followTrajectory(traj1);
+                stopRobot(1);
+                drive.followTrajectory(traj2);
 
-                move("Backward",26.5,autoPower);
-                move("CC",25,autoPower);
-                move("Backward",4.5,autoPower);
-
-                move("Forward",10,autoPower);
-                move("Left",30,autoPower);
-                move("Backward",90,autoPower);
-                move("Right",20,autoPower);
-                move("Backward",10,autoPower);
-
-                //hi
+//                move("Backward",26.5,autoPower);
+//                move("CC",25,autoPower);
+//                move("Backward",3,autoPower);
+//                move("Forward",40,autoPower);
 
 //                move("Forward",26.5,autoPower);
 //                move("CC",25,autoPower);
-//                move("Forward",5.5,autoPower);
+//                move("Forward",5.75,autoPower);
 //                openClaw();
-//
-//                move("Backward",10,autoPower);
-//                move("Right",30,autoPower);
-//                move("Forward",90,autoPower);
-//                move("Left",20,autoPower);
-//                move("Forward",10,autoPower);
-
-
+//                move("Backward",40,autoPower);
 
                 break;
             case MIDDLE:
-//                linearSlideMove(10,0.2);
-                move("Backward",28,autoPower);
+//                drive.followTrajectory(traj1);
+//                drive.followTrajectory(traj2);
+                move("Backward", 28, autoPower);
+                move("Forward",14,autoPower);
+                move("Left",40,0.4);
 
-                move ("Forward", 10,autoPower);
-                move("Left",20,0.4);
-                move("Backward",40,autoPower);
-                move("Right",110,autoPower);
-                move("Forward",20,autoPower);
-                move("Right",20,autoPower);
-
-
-
+//                move("Forward",27.5,autoPower);
+//                openClaw();
+//                move ("Backward",14,autoPower);
+//                move("Right",40,0.4);
 
                 break;
             case RIGHT:
-//                linearSlideMove(10,0.2);
+//                drive.followTrajectory(traj1);
+//                drive.followTrajectory(traj2);
                 move("Backward",12,autoPower);
-                move("Left",13,autoPower); //test this again
+                move("Left",12.5,autoPower); //test this again
                 move("Backward",9,autoPower);
-
                 move("Forward",5.5,autoPower);
-                move("Left",14,autoPower);
-                move("Backward",40,autoPower);
-                move("Right",115,autoPower);
-                move("Forward",20,autoPower);
-                move("Right",10,autoPower);
+                move("Left",40,autoPower);
 
 //                move("Forward",12,autoPower);
-//                move("Right",13.5,autoPower); //test this again
+//                move("Right",14.5,autoPower); //test this again
 //                move("Forward",9,autoPower);
 //                openClaw();
-//
 //                move("Backward",5.5,autoPower);
-//                move("Right",14,autoPower);
-//                move("Forward",40,autoPower);
-//                move("Left",115,autoPower);
-//                move("Backward",20,autoPower);
-//                move("Left",10,autoPower);
-
-                break;
-            case NONE:
+//                move("Right",40,autoPower);
                 break;
         }
     }
 
 
+    double autoPower = 0.25;
 
     public void move(String direction, double inches, double power) {
         resetEncoders();
@@ -247,8 +238,6 @@ public class CameraBlueLeftLinear extends LinearOpMode {
         frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        linearSlideLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        linearSlideRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
 
@@ -301,6 +290,7 @@ public class CameraBlueLeftLinear extends LinearOpMode {
         backLeft.setTargetPosition(mathTicks(-inches));
         backRight.setTargetPosition(mathTicks(inches));
     }
+
     public void targetNE (double inches) {
         frontLeft.setTargetPosition(mathTicks(inches));
         frontRight.setTargetPosition(mathTicks(0));
@@ -416,6 +406,7 @@ public class CameraBlueLeftLinear extends LinearOpMode {
         linearSlideLeft.setPower(power);
         whileActive();
     }
+
     public int mathTicks(double inches) {
         double raw = Math.round(inches*537.7/(3.779*3.14));
         return (int)raw;

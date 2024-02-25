@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Autonomous.OpMode;
 
 
 
@@ -14,20 +14,18 @@ import org.firstinspires.ftc.teamcode.processors.FirstVisionProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import org.firstinspires.ftc.teamcode.drive.DriveConstants;
-@Autonomous(name = "Camera Blue (Truss on Left)")
-public class CameraBlueLeft extends OpMode {
-//commit 3
+
+@Autonomous(name = "Camera Blue (Truss on Right)")
+public class RightBlueOld extends OpMode {
+
     DcMotor frontLeft = null;
     DcMotor frontRight = null;
     DcMotor backLeft = null;
     DcMotor backRight = null;
-    DcMotor linearSlideLeft = null;  // 0
-    DcMotor linearSlideRight = null; // 1
     Servo clawLeft = null;
     Servo clawRight = null;
+    DcMotor linearSlideLeft = null;  // 0
+    DcMotor linearSlideRight = null; // 1
     private FirstVisionProcessor visionProcessor;
 
     private VisionPortal visionPortal;
@@ -46,21 +44,20 @@ public class CameraBlueLeft extends OpMode {
         clawRight = hardwareMap.get(Servo.class, "clawRight");
         clawLeft.setDirection(Servo.Direction.REVERSE);
         linearSlideRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
         clawLeft.scaleRange(0,1);
         clawRight.scaleRange(0,1);
 
 //        closeClaw();
-            openClaw();
+        openClaw();
+
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         visionProcessor = new FirstVisionProcessor();
         visionPortal = VisionPortal.easyCreateWithDefaults(
                 hardwareMap.get(WebcamName.class, "Camera"), visionProcessor);
 
-
         setRunUsingEncoders();
-
-
     }
 
     @Override
@@ -69,7 +66,6 @@ public class CameraBlueLeft extends OpMode {
     }
 
     double autoPower = 0.25;
-
     @Override
     public void start() {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -77,79 +73,41 @@ public class CameraBlueLeft extends OpMode {
         Pose2d startPose = new Pose2d(10,-58.5,Math.toRadians(90)); //change
         drive.setPoseEstimate(startPose);
 
-//        double startTime = System.currentTimeMillis();
         visionPortal.stopStreaming();
         telemetry.addData("Identified", visionProcessor.getSelection());
         switch (visionProcessor.getSelection()) {
             case LEFT:
-//                linearSlideMove(10,0.2);
-
-                move("Backward",26.5,autoPower);
-                move("CC",25,autoPower);
-                move("Backward",4.5,autoPower);
-
-                move("Forward",10,autoPower);
-                move("Left",30,autoPower);
-                move("Backward",90,autoPower);
-                move("Right",20,autoPower);
-                move("Backward",10,autoPower);
-
-                //hi
-
-//                move("Forward",26.5,autoPower);
-//                move("CC",25,autoPower);
-//                move("Forward",5.5,autoPower);
-//                openClaw();
-//
-//                move("Backward",10,autoPower);
-//                move("Right",30,autoPower);
-//                move("Forward",90,autoPower);
-//                move("Left",20,autoPower);
-//                move("Forward",10,autoPower);
-
-
-
-                break;
-            case MIDDLE:
-//                linearSlideMove(10,0.2);
-                move("Backward",28,autoPower);
-
-                move ("Forward", 10,autoPower);
-                move("Left",20,0.4);
-                move("Backward",40,autoPower);
-                move("Right",110,autoPower);
-                move("Forward",20,autoPower);
-                move("Right",20,autoPower);
-
-
-
-
-                break;
-            case RIGHT:
-//                linearSlideMove(10,0.2);
                 move("Backward",12,autoPower);
-                move("Left",13,autoPower); //test this again
+                move("Right",11,autoPower); //test this again
                 move("Backward",9,autoPower);
-
                 move("Forward",5.5,autoPower);
-                move("Left",14,autoPower);
-                move("Backward",40,autoPower);
-                move("Right",115,autoPower);
-                move("Forward",20,autoPower);
-                move("Right",10,autoPower);
-
+                move("Right",40,autoPower);
+                move("Forward",30,autoPower);
 //                move("Forward",12,autoPower);
-//                move("Right",13.5,autoPower); //test this again
+//                move("Left",11.5,autoPower); //test this again
 //                move("Forward",9,autoPower);
 //                openClaw();
-//
 //                move("Backward",5.5,autoPower);
-//                move("Right",14,autoPower);
-//                move("Forward",40,autoPower);
-//                move("Left",115,autoPower);
-//                move("Backward",20,autoPower);
-//                move("Left",10,autoPower);
+//                move("Left",40,autoPower);
+                break;
+            case MIDDLE:
+                move("Backward",28,autoPower);
+//                openClaw();
+                move("Forward",10,autoPower);
+                move("Right",40,0.4);
+                break;
+            case RIGHT:
+                move("Backward",28,autoPower);
+                move("C",26,0.25);
+                move("Backward",2.5,autoPower);
+                move("Forward",40,autoPower);
+                move("Left",30,autoPower);
 
+//                move("Forward",25,autoPower);
+//                move("C",26,autoPower);
+//                move("Forward",3.5,autoPower);
+//                openClaw();
+//                move("Backward",40,autoPower);
                 break;
             case NONE:
                 break;
@@ -232,10 +190,10 @@ public class CameraBlueLeft extends OpMode {
         }
     public void whileActive() {
         while ((frontLeft.isBusy() && backRight.isBusy()) || linearSlideLeft.isBusy()) {
-            telemetry.addData("frontLeft	:", mathInches(frontLeft.getCurrentPosition()));
-            telemetry.addData("frontRight:", mathInches(frontRight.getCurrentPosition()));
-            telemetry.addData("backLeft	:", mathInches(backLeft.getCurrentPosition()));
-            telemetry.addData("backRight	:", mathInches(backRight.getCurrentPosition()));
+            telemetry.addData("frontLeft	:", mathInches(frontLeft.getCurrentPosition()) + " in.");
+            telemetry.addData("frontRight:", mathInches(frontRight.getCurrentPosition()) + " in.");
+            telemetry.addData("backLeft	:", mathInches(backLeft.getCurrentPosition()) + " in.");
+            telemetry.addData("backRight	:", mathInches(backRight.getCurrentPosition()) + " in.");
             telemetry.update();
         }
     }
@@ -251,8 +209,6 @@ public class CameraBlueLeft extends OpMode {
         frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        linearSlideLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        linearSlideRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
 
@@ -336,6 +292,7 @@ public class CameraBlueLeft extends OpMode {
         backLeft.setPower(power);
         backRight.setPower(power);
     }
+
     public void stopDriving(){
         frontLeft.setPower(0);
         frontRight.setPower(0);
@@ -372,6 +329,7 @@ public class CameraBlueLeft extends OpMode {
         backLeft.setPower(0);
         backRight.setPower(power);
     }
+
     public void driveNE(double power) {
         frontLeft.setPower(power);
         frontRight.setPower(0);
@@ -407,7 +365,6 @@ public class CameraBlueLeft extends OpMode {
         clawLeft.setPosition(0.55);
         clawRight.setPosition(0.32);
     }
-
     public void linearSlideMove(double inches, double power) {
         resetEncoders();
         linearSlideLeft.setTargetPosition(mathTicks(inches));
@@ -424,19 +381,16 @@ public class CameraBlueLeft extends OpMode {
         double raw = Math.round(inches*537.7/(3.779*3.14));
         return (int)raw;
     }
-
     public double mathInches(int ticks){
         double raw= Math.round(ticks*(3.779*Math.PI)/537.7);
         return (double)raw;
     }
 
     public void stopRobot(double seconds) {
-
         try {
             Thread.sleep((long)(seconds*1000));
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
-
 }

@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode;
-import android.graphics.RenderNode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -13,8 +11,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 //
 //import com.qualcomm.robotcore.hardware.DcMotor;
 //import com.qualcomm.robotcore.hardware.servo;
-@TeleOp(name = "TeleOp (Use This)")
-public class Telemetry extends OpMode {
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp (Use This)")
+public class TeleOp extends OpMode {
     //GoBILDA 5202/3/4 series
     DcMotor frontLeft;  // 2
     DcMotor frontRight; // 0

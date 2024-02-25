@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Autonomous.OpMode;
 
 
 
@@ -16,23 +16,31 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
-@Autonomous(name = "Camera Red (Truss on Right)")
-public class CameraRightRed extends OpMode {
+
+@Autonomous(name = "Camera Red (Truss on Left)")
+public class LeftRedOld extends OpMode {
 
     DcMotor frontLeft = null;
     DcMotor frontRight = null;
     DcMotor backLeft = null;
     DcMotor backRight = null;
+
     Servo clawLeft = null;
     Servo clawRight = null;
     DcMotor linearSlideLeft = null;  // 0
     DcMotor linearSlideRight = null; // 1
+
     private FirstVisionProcessor visionProcessor;
 
     private VisionPortal visionPortal;
 
+
+
+
     @Override
     public void init() {
+
+
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
@@ -41,14 +49,17 @@ public class CameraRightRed extends OpMode {
         linearSlideLeft = hardwareMap.get(DcMotor.class, "linearSlideLeft");
         linearSlideRight = hardwareMap.get(DcMotor.class, "linearSlideRight");
 
+
+        //claw code
         clawLeft = hardwareMap.get(Servo.class, "clawLeft");
         clawRight = hardwareMap.get(Servo.class, "clawRight");
+
         clawLeft.setDirection(Servo.Direction.REVERSE);
         linearSlideRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
+
         clawLeft.scaleRange(0,1);
         clawRight.scaleRange(0,1);
-
 
 //        closeClaw();
         openClaw();
@@ -60,6 +71,9 @@ public class CameraRightRed extends OpMode {
                 hardwareMap.get(WebcamName.class, "Camera"), visionProcessor);
 
         setRunUsingEncoders();
+
+
+
     }
 
     @Override
@@ -68,92 +82,68 @@ public class CameraRightRed extends OpMode {
     }
 
     double autoPower = 0.25;
+
     @Override
     public void start() {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-
-        Pose2d startPose = new Pose2d(10,-58.5,Math.toRadians(90));//change
+        Pose2d startPose = new Pose2d(12,-65,Math.toRadians(-90));
         drive.setPoseEstimate(startPose);
+
+        Trajectory traj1 = drive.trajectoryBuilder(startPose,true)
+                .lineToLinearHeading(new Pose2d(12,-10,0))
+                .build();
+
+        Trajectory traj2 = drive.trajectoryBuilder(traj1.end())
+                .splineTo(new Vector2d(30,40),0)
+                .build();
+
 
         visionPortal.stopStreaming();
         telemetry.addData("Identified", visionProcessor.getSelection());
         switch (visionProcessor.getSelection()) {
             case LEFT:
-                move("Backward",12,autoPower);
-                move("Right",11,autoPower); //test this again
-                move("Backward",9,autoPower);
+                drive.followTrajectory(traj1);
+                drive.followTrajectory(traj2);
+                move("Backward",26.5,autoPower);
+                move("CC",25,autoPower);
+                move("Backward",3,autoPower);
+                move("Forward",40,autoPower);
 
-                move("Forward",5.5,autoPower);
-                move("Right",13,autoPower);
-                move("Backward",41,autoPower);
-                stopRobot(6);
-                move("Left",115,autoPower);
-                move("Forward",10,autoPower);
-                move("Left",10,autoPower);
-
-//                move("Forward",12,autoPower);
-//                move("Left",11,autoPower); //test this again
-//                move("Forward",9,autoPower);
+//                move("Forward",26.5,autoPower);
+//                move("CC",25,autoPower);
+//                move("Forward",5.75,autoPower);
 //                openClaw();
-//
-//                move("Backward",5.5,autoPower);
-//                move("Left",14,autoPower);
-//                move("Forward",40,autoPower);
-//                move("Right",115,autoPower);
-//                move("Backward",20,autoPower);
-//                move("Right",10,autoPower);
+//                move("Backward",40,autoPower);
 
                 break;
             case MIDDLE:
-                move("Backward",28,autoPower);
+                drive.followTrajectory(traj1);
+                drive.followTrajectory(traj2);
+                move("Backward", 28, autoPower);
+                move("Forward",14,autoPower);
+                move("Left",40,0.4);
 
-                move("Forward", 10,autoPower);
-                move("Right",20,0.4);
-                move("Backward",39,autoPower);
-                stopRobot(6);
-                move("Left",110,autoPower);
-                move("Forward",10,autoPower);
-                move("Left",20,autoPower);
-
-//                move("Forward",27,autoPower);
-//                  openClaw();
-//                move("Backward", 10,autoPower);
-//                move("Left",20,0.4);
-//                move("Forward",40,autoPower);
-//                move("Right",110,autoPower);
-//                move("Backward",20,autoPower);
-//                move("Right",20,autoPower);
-
+//                move("Forward",27.5,autoPower);
+//                openClaw();
+//                move ("Backward",14,autoPower);
+//                move("Right",40,0.4);
 
                 break;
             case RIGHT:
-                move("Backward",25,autoPower);
-                move("C",26.5,autoPower);
-                move("Backward",2, autoPower);
+                drive.followTrajectory(traj1);
+                drive.followTrajectory(traj2);
+                move("Backward",12,autoPower);
+                move("Left",12.5,autoPower); //test this again
+                move("Backward",9,autoPower);
+                move("Forward",5.5,autoPower);
+                move("Left",40,autoPower);
 
-                move("Forward",10,autoPower);
-                move("Right",26.5,autoPower);
-                stopRobot(6);
-                move("Backward",90,autoPower);
-                move("Left",10,autoPower);
-                move("Backward",10,autoPower);
-
-//                move("Forward",25,autoPower);
-//                move("C",26,autoPower);
-//                move("Forward",2.5, autoPower);
+//                move("Forward",12,autoPower);
+//                move("Right",14.5,autoPower); //test this again
+//                move("Forward",9,autoPower);
 //                openClaw();
-////
-//                move("Backward",10,autoPower);
-//                move("Left",30,autoPower);
-//                move("Forward",90,autoPower);
-//                move("Right",20,autoPower);
-//                move("Forward",10,autoPower);
-
-
-
-
-                break;
-            case NONE:
+//                move("Backward",5.5,autoPower);
+//                move("Right",40,autoPower);
                 break;
         }
     }
@@ -305,6 +295,7 @@ public class CameraRightRed extends OpMode {
         backLeft.setTargetPosition(mathTicks(-inches));
         backRight.setTargetPosition(mathTicks(inches));
     }
+
     public void targetNE (double inches) {
         frontLeft.setTargetPosition(mathTicks(inches));
         frontRight.setTargetPosition(mathTicks(0));
@@ -432,6 +423,7 @@ public class CameraRightRed extends OpMode {
     }
 
     public void stopRobot(double seconds) {
+
         try {
             Thread.sleep((long)(seconds*1000));
         } catch (InterruptedException e) {

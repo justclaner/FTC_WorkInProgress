@@ -16,6 +16,7 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 
 @Autonomous(name = "Camera Red (Truss on Left)")
 public class CameraLeftRed extends OpMode {

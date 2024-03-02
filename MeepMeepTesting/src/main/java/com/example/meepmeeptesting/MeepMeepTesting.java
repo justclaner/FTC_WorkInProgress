@@ -29,28 +29,55 @@ public class MeepMeepTesting {
                 .setConstraints(48, 48, Math.toRadians(180), Math.toRadians(180), 14.2)
                 .followTrajectorySequence(drive ->
 
-                        //left
-                        drive.trajectorySequenceBuilder(redLeft).setReversed(true)
-                                .lineToLinearHeading(new Pose2d(12,-34,0)
-//                                        ,SampleMecanumDrive.getVelocityConstraint(12, Math.toRadians(180), 14.2),
-//                                        SampleMecanumDrive.getAccelerationConstraint(12)
-                                )
-                                .back(3)                      .setReversed(false)
-                                .splineTo(new Vector2d(56,-56),0)
-                                .lineToLinearHeading(redLeft).setReversed(true)
-                                .lineTo(new Vector2d(12,-34)).setReversed(false)
-                                .splineTo(new Vector2d(56,-56),Math.toRadians(0))
+
+                        drive.trajectorySequenceBuilder(redLeft)
+
+                                //left
+//                                .lineToLinearHeading(new Pose2d(12,-34,0)
+////                                        ,SampleMecanumDrive.getVelocityConstraint(12, Math.toRadians(180), 14.2),
+////                                        SampleMecanumDrive.getAccelerationConstraint(12)
+//                                )
+//                                .back(3).waitSeconds(0.2) //purple pixel
+//                                .splineTo(new Vector2d(50,-28),0) //yellow pixel
+//
+//                                .setReversed(true).waitSeconds(0.2)
+
+//                                .splineToLinearHeading(new Pose2d(12,-58,Math.toRadians(180)),Math.toRadians(270)).setReversed(false)
+//                                .lineTo(new Vector2d(-20,-58))
+//                                .splineTo(new Vector2d(-56,-35),Math.toRadians(180)).waitSeconds(0.2).setReversed(true)
+//                                .splineTo(new Vector2d(-18,-11),0)
+//                                .lineToConstantHeading(new Vector2d(18,-11))
+//                                .splineTo(new Vector2d(40,-40),Math.toRadians(180))
+//                                .lineTo(new Vector2d(50,-40))
+
+
 
 
                         //middle
-//                        drive.trajectorySequenceBuilder(redLeft).setReversed(true)Math.toRadians(180), Math.toRadians(180)
-//                                .lineTo(new Vector2d(12,-34)).setReversed(false)
-//                                .splineTo(new Vector2d(56,-56),Math.toRadians(0))
+//
+                                .lineTo(new Vector2d(12,-34)).waitSeconds(0.3) //purple pixel
+
+                                .splineToLinearHeading(new Pose2d(48,-35,0),Math.toRadians(90)) //yellow pixel
+//
+//                                .setReversed(true)
+//                                .lineToLinearHeading(new Pose2d(24,-36,Math.toRadians(180)))
+//
+//                                .setReversed(false)
+//                                .lineTo(new Vector2d(-58,-36))
+//
+//                                .lineTo(new Vector2d(24,-36))
+//                                .lineToLinearHeading(new Pose2d(48,-40,0))
+//                                .lineToLinearHeading(new Pose2d(24,-36,Math.toRadians(180)))
+//
+//                                .lineTo(new Vector2d(-58,-36))
+//                                .lineTo(new Vector2d(24,-36))
+//                                .lineToLinearHeading(new Pose2d(48,-40,0))
 
                         //right
-//                        drive.trajectorySequenceBuilder(redLeft).setReversed(true)
-//                                .lineTo(new Vector2d(12,-34)).setReversed(false)
-//                                .splineTo(new Vector2d(56,-56),Math.toRadians(0))
+
+//                                .lineTo(new Vector2d(22,-40)) //purple pixel
+//                                .waitSeconds(0.1)
+//                                .splineTo(new Vector2d(49,-41),Math.toRadians(0)) //yellow pixel
 
                                 .build()
                 );
@@ -61,7 +88,42 @@ public class MeepMeepTesting {
                 .setConstraints(48, 48, Math.toRadians(180), Math.toRadians(180), 14.2)
                 .followTrajectorySequence(drive ->
                             drive.trajectorySequenceBuilder(redRight)
-                                    .lineTo(new Vector2d())
+                                    //left
+//                                    .lineToLinearHeading(new Pose2d(-37,-34,0)) //purple
+//
+//                                    .forward(2)
+//
+//                                    .lineTo(new Vector2d(-35,-12))
+//
+//
+//
+//                                    .lineTo(new Vector2d(12,-12))
+//                                    .splineTo(new Vector2d(49,-30),0) //yellow pixel
+
+
+
+                                    //middle
+//                                .lineTo(new Vector2d(-36,-33)) //purple
+//                                .waitSeconds(0.1)
+//
+//                                .forward(2)
+//
+//                                .strafeLeft(48)
+//
+//                                .lineToLinearHeading(new Pose2d(49,-35,0)) //yellow pixel
+
+                                    //right
+                                .lineToLinearHeading(new Pose2d(-36,-32,Math.toRadians(180)))
+
+                                .back(3) //purple
+                                .waitSeconds(0.1)
+
+                                    .forward(2)
+                                    .splineTo(new Vector2d(-42,-20),Math.toRadians(90))
+                                .splineTo(new Vector2d(-28,-12),0)
+
+                                .lineTo(new Vector2d(12,-12))
+                                .splineTo(new Vector2d(49,-42),0) //yellow pixel
                                     .build()
                                 );
 
@@ -70,7 +132,42 @@ public class MeepMeepTesting {
                 .setConstraints(48, 48, Math.toRadians(180), Math.toRadians(180), 14.2)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(blueLeft)
-                                .lineTo(new Vector2d())
+                                //left
+                                .lineToLinearHeading(new Pose2d(-36,32,Math.toRadians(180)))
+
+                                .back(3) //purple
+                                .waitSeconds(0.1)
+
+                                .forward(2)
+                                .splineTo(new Vector2d(-42,20),Math.toRadians(-90))
+                                .splineTo(new Vector2d(-28,12),0)
+
+                                .lineTo(new Vector2d(12,12))
+                                .splineTo(new Vector2d(49,42),0) //yellow pixel
+
+
+
+                                //middle
+//                                .lineTo(new Vector2d(-36,33)) //purple
+//                                .waitSeconds(0.1)
+//
+//                                .forward(2)
+//
+//                                .strafeRight(48)
+//
+//                                .lineToLinearHeading(new Pose2d(49,35,0)) //yellow pixel
+
+                                //right
+//                                .lineToLinearHeading(new Pose2d(-37,34,0)) //purple
+//
+//                                .forward(2)
+//
+//                                .lineTo(new Vector2d(-35,12))
+//
+//
+//
+//                                .lineTo(new Vector2d(12,12))
+//                                .splineTo(new Vector2d(49,30),0) //yellow pixel
                                 .build()
                 );
 
@@ -79,7 +176,26 @@ public class MeepMeepTesting {
                 .setConstraints(48, 48, Math.toRadians(180), Math.toRadians(180), 14.2)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(blueRight)
-                                .lineTo(new Vector2d())
+
+                                //left
+
+//                                .lineTo(new Vector2d(23,40)) //purple pixel
+//                                .waitSeconds(0.1)
+//                                .splineTo(new Vector2d(49,42),0) //yellow pixel
+
+
+                                //middle
+//                                .lineTo(new Vector2d(12,33)) //purple pixel
+//                                .waitSeconds(0.1)
+//                                .splineTo(new Vector2d(49,35),0) //yellow pixel
+
+
+                                //right
+                                .lineToLinearHeading(new Pose2d(12,32,Math.toRadians(0)))
+                                .back(2)  //purple pixel
+                                .waitSeconds(0.1)
+                                .splineTo(new Vector2d(49,28),0) //yellow pixel
+
                                 .build()
                 );
 
@@ -87,10 +203,10 @@ public class MeepMeepTesting {
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-                .addEntity(redLeftBot)
-//                .addEntity(redRightBot)
-//                .addEntity(blueLeftBot)
-//                .addEntity(blueRightBot)
+                //.addEntity(redLeftBot)
+                .addEntity(redRightBot)
+                .addEntity(blueLeftBot)
+                //.addEntity(blueRightBot)
                 .start();
     }
     public static double r(double degree) {

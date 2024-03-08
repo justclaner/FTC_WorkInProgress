@@ -16,10 +16,12 @@ public class MeepMeepTesting {
     double angAccel = r(180);
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(600);
+        //region starting positions
         Pose2d redLeft = new Pose2d(12,-63,Math.toRadians(-90));
         Pose2d redRight = new Pose2d(-36,-63,Math.toRadians(-90));
         Pose2d blueLeft = new Pose2d(-36,63,Math.toRadians(90));
         Pose2d blueRight = new Pose2d(12,63,Math.toRadians(90));
+        //endregion
 
 
 //commit
@@ -179,9 +181,10 @@ public class MeepMeepTesting {
 
                                 //left
 
-//                                .lineTo(new Vector2d(23,40)) //purple pixel
-//                                .waitSeconds(0.1)
-//                                .splineTo(new Vector2d(49,42),0) //yellow pixel
+                                .lineTo(new Vector2d(23,40)) //purple pixel
+                                .waitSeconds(0.1)
+                                .forward(5)
+                                .splineTo(new Vector2d(49,42),0) //yellow pixel
 
 
                                 //middle
@@ -191,10 +194,10 @@ public class MeepMeepTesting {
 
 
                                 //right
-                                .lineToLinearHeading(new Pose2d(12,32,Math.toRadians(0)))
-                                .back(2)  //purple pixel
-                                .waitSeconds(0.1)
-                                .splineTo(new Vector2d(49,28),0) //yellow pixel
+//                                .lineToLinearHeading(new Pose2d(12,32,Math.toRadians(0)))
+//                                .back(2)  //purple pixel
+//                                .waitSeconds(0.1)
+//                                .splineTo(new Vector2d(49,28),0) //yellow pixel
 
                                 .build()
                 );
@@ -204,9 +207,9 @@ public class MeepMeepTesting {
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
                 //.addEntity(redLeftBot)
-                .addEntity(redRightBot)
-                .addEntity(blueLeftBot)
-                //.addEntity(blueRightBot)
+               // .addEntity(redRightBot)
+                //.addEntity(blueLeftBot)
+                .addEntity(blueRightBot)
                 .start();
     }
     public static double r(double degree) {

@@ -30,6 +30,10 @@ public class TeleOpDriving extends OpMode {
 
     Servo armLeft;    //2
     Servo armRight; //3
+
+//    Servo droneLauncher;
+
+
     @Override
     public void init() {
 
@@ -48,17 +52,21 @@ public class TeleOpDriving extends OpMode {
       clawRight = hardwareMap.get(Servo.class, "clawRight");
         armLeft = hardwareMap.get(Servo.class, "armLeft");
         armRight = hardwareMap.get(Servo.class, "armRight");
+        //droneLauncher = hardwareMap.get(Servo.class,"droneLauncher");
 
         armLeft.setDirection(Servo.Direction.REVERSE);
         clawLeft.setDirection(Servo.Direction.REVERSE);
+        //droneLauncher.setDirection(Servo.Direction.REVERSE);
 
       clawLeft.scaleRange(0,1);
       clawRight.scaleRange(0,1);
       armLeft.scaleRange(0,1);
       armRight.scaleRange(0,1);
+      //droneLauncher.scaleRange(0,1);
 
       clawLeft.setPosition(0.34);
       clawRight.setPosition(0.1);
+
 
 
 
@@ -104,6 +112,7 @@ public class TeleOpDriving extends OpMode {
         double rAxisMovement = gamepad1.right_stick_x;
         double lAxisMovement = 0.6* gamepad2.left_stick_y;
         double aAxisMovement = 0.05*gamepad2.right_stick_y;
+
 
         //removes joystick drift; do not move this code to anywhere else
         if (Math.abs(xAxisMovement) < 0.05) {
@@ -153,6 +162,7 @@ public class TeleOpDriving extends OpMode {
         if (gamepad1.y) {
           clawLeft.setPosition(0.55);
           clawRight.setPosition(0.32);
+
         }
 //            armPosition += aAxisMovement;
             //arm.setPosition(armPosition);
@@ -164,8 +174,8 @@ public class TeleOpDriving extends OpMode {
         if (gamepad2.right_bumper) {
             armLeft.setPosition(1);
             armRight.setPosition(1);
+
         }
-        
 
 
 

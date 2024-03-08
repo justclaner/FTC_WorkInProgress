@@ -15,7 +15,7 @@ import org.firstinspires.ftc.vision.VisionPortal;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 
-@Autonomous(name = "Camera Blue (Truss on Right)")
+@Autonomous(name = "Camera Blue (Truss on Right)", group = "b")
 public class RightBlueOld extends OpMode {
 
     DcMotor frontLeft = null;

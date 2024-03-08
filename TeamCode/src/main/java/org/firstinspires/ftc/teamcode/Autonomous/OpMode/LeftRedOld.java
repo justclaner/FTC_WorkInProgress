@@ -17,7 +17,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 
-@Autonomous(name = "Camera Red (Truss on Left)")
+@Autonomous(name = "Camera Red (Truss on Left)", group = "b")
 public class LeftRedOld extends OpMode {
 
     DcMotor frontLeft = null;

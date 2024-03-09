@@ -181,10 +181,10 @@ public class MeepMeepTesting {
 
                                 //left
 
-                                .lineTo(new Vector2d(23,40)) //purple pixel
-                                .waitSeconds(0.1)
-                                .forward(5)
-                                .splineTo(new Vector2d(49,42),0) //yellow pixel
+//                                .lineTo(new Vector2d(23,40)) //purple pixel
+//                                .waitSeconds(0.1)
+//                                .forward(5)
+//                                .splineTo(new Vector2d(49,42),0) //yellow pixel
 
 
                                 //middle
@@ -194,10 +194,10 @@ public class MeepMeepTesting {
 
 
                                 //right
-//                                .lineToLinearHeading(new Pose2d(12,32,Math.toRadians(0)))
-//                                .back(2)  //purple pixel
-//                                .waitSeconds(0.1)
-//                                .splineTo(new Vector2d(49,28),0) //yellow pixel
+                                .lineToLinearHeading(new Pose2d(12,32,Math.toRadians(0)))
+                                .back(2)  //purple pixel
+                                .waitSeconds(0.1)
+                                .splineTo(new Vector2d(49,28),0) //yellow pixel
 
                                 .build()
                 );

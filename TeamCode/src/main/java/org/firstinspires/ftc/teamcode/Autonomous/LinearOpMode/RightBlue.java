@@ -76,6 +76,27 @@ public class RightBlue extends LinearOpMode {
                 .splineTo(new Vector2d(49,42),0) //yellow pixel
                         .build();
 
+        Trajectory mid1 = drive.trajectoryBuilder(startPose)
+                .lineTo(new Vector2d(12,33)) //purple pixel
+                .build();
+
+        Trajectory mid2 = drive.trajectoryBuilder(startPose)
+                .splineTo(new Vector2d(49,35),0) //yellow pixel
+                .build();
+
+        Trajectory right1 = drive.trajectoryBuilder(startPose)
+                .lineToLinearHeading(new Pose2d(12,32,Math.toRadians(0)))
+                .build();
+
+        Trajectory right2 = drive.trajectoryBuilder(startPose)                                .back(2)  //purple pixel
+                .back(2)  //purple pixel
+                .build();
+
+        Trajectory right3 = drive.trajectoryBuilder(startPose)                                .back(2)  //purple pixel
+                .splineTo(new Vector2d(49,28),0) //yellow pixel
+                .build();
+
+
         while (!isStarted()) {
             telemetry.addData("Identified", visionProcessor.getSelection());
             telemetry.update();
@@ -93,10 +114,16 @@ public class RightBlue extends LinearOpMode {
 
                 break;
             case MIDDLE:
+                drive.followTrajectory(mid1);
+                stopRobot(0.1);
+                drive.followTrajectory(mid2);
  //middle trajectories
                 break;
             case RIGHT:
-
+                drive.followTrajectory(right1);
+                drive.followTrajectory(right2);
+                stopRobot(0.1);
+                drive.followTrajectory(right3);
 //                move("Backward",40,autoPower);
                 break;
             case NONE:

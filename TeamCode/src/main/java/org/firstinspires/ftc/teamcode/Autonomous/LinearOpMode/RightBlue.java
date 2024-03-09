@@ -61,40 +61,45 @@ public class RightBlue extends LinearOpMode {
 
         openClaw();
 
-
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         Pose2d startPose = new Pose2d(12,63,Math.toRadians(90)); //change
         drive.setPoseEstimate(startPose);
 
-        //trajectories here
+
+        //region left
         Trajectory left1 = drive.trajectoryBuilder(startPose)
                 .lineTo(new Vector2d(23,40)) //purple pixel
                 .build();
 
-        Trajectory left2 = drive.trajectoryBuilder(new Pose2d(23,40,Math.toRadians(90)))
+        Trajectory left2 = drive.trajectoryBuilder(left1.end())
                 .forward(5) //check for continuity error
                 .splineTo(new Vector2d(49,42),0) //yellow pixel
                         .build();
+        //endregion
 
+        //region middle
         Trajectory mid1 = drive.trajectoryBuilder(startPose)
                 .lineTo(new Vector2d(12,33)) //purple pixel
                 .build();
 
-        Trajectory mid2 = drive.trajectoryBuilder(startPose)
+        Trajectory mid2 = drive.trajectoryBuilder(mid1.end())
                 .splineTo(new Vector2d(49,35),0) //yellow pixel
                 .build();
+        //endregion
 
+        //region right
         Trajectory right1 = drive.trajectoryBuilder(startPose)
                 .lineToLinearHeading(new Pose2d(12,32,Math.toRadians(0)))
                 .build();
 
-        Trajectory right2 = drive.trajectoryBuilder(startPose)
+        Trajectory right2 = drive.trajectoryBuilder(right1.end())
                 .back(2)  //purple pixel
                 .build();
 
-        Trajectory right3 = drive.trajectoryBuilder(startPose)
+        Trajectory right3 = drive.trajectoryBuilder(right2.end())
                 .splineTo(new Vector2d(49,28),0) //yellow pixel
                 .build();
+        //endregion
 
 
         while (!isStarted()) {
@@ -108,23 +113,26 @@ public class RightBlue extends LinearOpMode {
 
         switch (visionProcessor.getSelection()) {
             case LEFT:
+
                 drive.followTrajectory(left1);
                 stopRobot(0.1);
                 drive.followTrajectory(left2);
 
                 break;
             case MIDDLE:
+
                 drive.followTrajectory(mid1);
                 stopRobot(0.1);
                 drive.followTrajectory(mid2);
- //middle trajectories
+
                 break;
             case RIGHT:
+
                 drive.followTrajectory(right1);
                 drive.followTrajectory(right2);
                 stopRobot(0.1);
                 drive.followTrajectory(right3);
-//                move("Backward",40,autoPower);
+
                 break;
             case NONE:
                 break;

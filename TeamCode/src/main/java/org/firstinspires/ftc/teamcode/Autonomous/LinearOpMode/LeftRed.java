@@ -74,16 +74,44 @@ public class LeftRed extends LinearOpMode {
         Pose2d startPose = new Pose2d(12,-63,Math.toRadians(-90));
         drive.setPoseEstimate(startPose);
 
-        Trajectory traj1 = drive.trajectoryBuilder(startPose,true)
-                .lineToLinearHeading(new Pose2d(12,-10,0))
-                .build();
-
-        Trajectory traj2 = drive.trajectoryBuilder(traj1.end())
-                .splineTo(new Vector2d(30,47),0,
-                        SampleMecanumDrive.getVelocityConstraint(15, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+        //region left
+        Trajectory left1 = drive.trajectoryBuilder(startPose,true)
+                .lineToLinearHeading(new Pose2d(12,-34,0)
+//                                        ,SampleMecanumDrive.getVelocityConstraint(12, Math.toRadians(180), 14.2),
+//                                        SampleMecanumDrive.getAccelerationConstraint(12)
                 )
                 .build();
+
+        Trajectory left2 = drive.trajectoryBuilder(left1.end())
+                .back(2) //purple pixel
+                .build();
+
+        Trajectory left3 = drive.trajectoryBuilder(left2.end())
+                .splineTo(new Vector2d(50,-28),0) //yellow pixel
+                .build();
+        //endregion
+
+        //region middle
+        Trajectory mid1 = drive.trajectoryBuilder(startPose)
+                .lineTo(new Vector2d(12,-34)) //purple pixel
+                .build();
+
+        Trajectory mid2 = drive.trajectoryBuilder(mid1.end())
+                .forward(3)
+                .splineTo(new Vector2d(49,-35),0) //yellow pixel
+                .build();
+        //endregion
+
+        //region right
+        Trajectory right1 = drive.trajectoryBuilder(startPose)
+                .lineTo(new Vector2d(23,-40)) //purple pixel
+                .build();
+
+        Trajectory right2 = drive.trajectoryBuilder(right1.end())
+                .forward(5)
+                .splineTo(new Vector2d(49,-42),Math.toRadians(0)) //yellow pixel
+                .build();
+        //endregion
 
         while (!isStarted()) {
             telemetry.addData("Identified", visionProcessor.getSelection());
@@ -98,21 +126,25 @@ public class LeftRed extends LinearOpMode {
 
         switch (visionProcessor.getSelection()) {
             case LEFT:
-                drive.followTrajectory(traj1);
-                stopRobot(1);
-                drive.followTrajectory(traj2);
+                drive.followTrajectory(left1);
+                drive.followTrajectory(left2);
+                stopRobot(0.1);
+                drive.followTrajectory(left3);
 
 
 
                 break;
             case MIDDLE:
-//                drive.followTrajectory(traj1);
+                drive.followTrajectory(mid1);
+                stopRobot(0.1);
+                drive.followTrajectory(mid2);
 
 
                 break;
             case RIGHT:
-//                drive.followTrajectory(traj1);
-
+                drive.followTrajectory(right1);
+                stopRobot(0.1);
+                drive.followTrajectory(right2);
                 break;
         }
     }

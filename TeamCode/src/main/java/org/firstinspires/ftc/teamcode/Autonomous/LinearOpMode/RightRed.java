@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.Autonomous.LinearOpMode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -59,10 +61,66 @@ public class RightRed extends LinearOpMode {
         openClaw();
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        Pose2d startPose = new Pose2d(12,63,Math.toRadians(90));//change
+        Pose2d startPose = new Pose2d(-36,-63,Math.toRadians(-90));//change
         drive.setPoseEstimate(startPose);
 
-        //trajectories here
+        //region left
+        Trajectory left1 = drive.trajectoryBuilder(startPose)
+                .lineToLinearHeading(new Pose2d(-37,-34,0)) //purple
+                .build();
+
+        Trajectory left2 = drive.trajectoryBuilder(left1.end())
+                .forward(3)
+                .build();
+
+        Trajectory left3 = drive.trajectoryBuilder(left2.end())
+                .lineTo(new Vector2d(-34,-12))
+                .build();
+
+        Trajectory left4 = drive.trajectoryBuilder(left3.end())
+                .lineTo(new Vector2d(12,-12))
+                .splineTo(new Vector2d(49,-30),0) //yellow pixel
+                .build();
+        //endregion
+
+        //region middle
+        Trajectory mid1 = drive.trajectoryBuilder(startPose)
+                .lineTo(new Vector2d(-36,-33)) //purple
+                .build();
+
+        Trajectory mid2 = drive.trajectoryBuilder(mid1.end())
+                .forward(2)
+                .build();
+
+        Trajectory mid3 = drive.trajectoryBuilder(mid2.end())
+                .strafeLeft(48)
+                .build();
+
+        Trajectory mid4 = drive.trajectoryBuilder(mid3.end())
+                .lineToLinearHeading(new Pose2d(49,-35,0)) //yellow pixel
+                .build();
+        //endregion
+
+        //region right
+        Trajectory right1 = drive.trajectoryBuilder(startPose)
+                .lineToLinearHeading(new Pose2d(-36,-32,Math.toRadians(180)))
+                .build();
+
+        Trajectory right2 = drive.trajectoryBuilder(right1.end())
+                .back(3) //purple
+                .build();
+
+        Trajectory right3 = drive.trajectoryBuilder(right2.end())
+                .forward(4)
+                .splineTo(new Vector2d(-42,-20),Math.toRadians(90))
+                .splineTo(new Vector2d(-28,-12),0)
+
+                .lineTo(new Vector2d(12,-12))
+                .splineTo(new Vector2d(49,-42),0) //yellow pixel
+                .build();
+        //endregion
+
+
         while (!isStarted()) {
             telemetry.addData("Identified", visionProcessor.getSelection());
             telemetry.update();
@@ -74,19 +132,29 @@ public class RightRed extends LinearOpMode {
 
         switch (visionProcessor.getSelection()) {
             case LEFT:
-//                move("Backward",12,autoPower);
 
+                drive.followTrajectory(left1);
+                stopRobot(0.1);
+                drive.followTrajectory(left2);
+                drive.followTrajectory(left3);
+                drive.followTrajectory(left4);
 
                 break;
             case MIDDLE:
-//                move("Backward",28,autoPower);
 
-
+            drive.followTrajectory(mid1);
+            stopRobot(0.1);
+            drive.followTrajectory(mid2);
+            drive.followTrajectory(mid3);
+            drive.followTrajectory(mid4);
 
                 break;
             case RIGHT:
-//                move("Backward",25,autoPower);
 
+                drive.followTrajectory(right1);
+                drive.followTrajectory(right2);
+                stopRobot(0.1);
+                drive.followTrajectory(right3);
 
                 break;
             case NONE:

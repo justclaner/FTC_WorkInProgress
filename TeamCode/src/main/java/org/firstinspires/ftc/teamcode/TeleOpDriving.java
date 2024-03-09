@@ -4,16 +4,12 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-//import com.qualcomm.robotcore.hardware.Servo;
-//import com.qualcomm.robotcore.hardware.ServoController;
-//import com.qualcomm.robotcore.util.ElapsedTime;
-//
-//import com.qualcomm.robotcore.hardware.DcMotor;
-//import com.qualcomm.robotcore.hardware.servo;
+
 @TeleOp(name = "TeleOp (Use This)")
 public class TeleOpDriving extends OpMode {
+
+    //region Initializations
     //GoBILDA 5202/3/4 series
     DcMotor frontLeft;  // 2
     DcMotor frontRight; // 0
@@ -22,8 +18,6 @@ public class TeleOpDriving extends OpMode {
 
     DcMotor linearSlideLeft;  // 0
     DcMotor linearSlideRight; // 1
-
-
     Servo clawLeft;  //1
 
     Servo clawRight;  //0
@@ -32,18 +26,17 @@ public class TeleOpDriving extends OpMode {
     Servo armRight; //3
 
 //    Servo droneLauncher;
-
+    //endregion
 
     @Override
     public void init() {
 
-//        hardware motors = new hardware(hardwareMap);
-
+        //region hardwareMap and directions
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
-//
+
         linearSlideLeft = hardwareMap.get(DcMotor.class, "linearSlideLeft");
         linearSlideRight = hardwareMap.get(DcMotor.class, "linearSlideRight");
 
@@ -64,11 +57,6 @@ public class TeleOpDriving extends OpMode {
       armRight.scaleRange(0,1);
       //droneLauncher.scaleRange(0,1);
 
-      clawLeft.setPosition(0.34);
-      clawRight.setPosition(0.1);
-
-
-
 
 //        armRight.setPosition(1);
         frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -79,12 +67,6 @@ public class TeleOpDriving extends OpMode {
         linearSlideLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         linearSlideRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-
-
-
-
-
-
         //originally only backLeft reverse
 
        // frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -94,7 +76,10 @@ public class TeleOpDriving extends OpMode {
 
       //  linearSlideRight.setDirection(DcMotorSimple.Direction.REVERSE); // or right
         linearSlideLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        //endregion
 
+        clawLeft.setPosition(0.34);
+        clawRight.setPosition(0.1);
 
     }
 
@@ -107,6 +92,7 @@ public class TeleOpDriving extends OpMode {
     @Override
     public void loop() {
 
+        //Motor Controls
         double xAxisMovement = gamepad1.left_stick_x;
         double yAxisMovement = gamepad1.left_stick_y;
         double rAxisMovement = gamepad1.right_stick_x;
@@ -137,9 +123,10 @@ public class TeleOpDriving extends OpMode {
         frontRight.setPower(multiplier * frontRightPower);
         backLeft.setPower(multiplier * backLeftPower);
         backRight.setPower(multiplier * backRightPower);
+        //endregion
 
 
-
+        //region Linear Slide Toggle
         if (gamepad2.a) {
             //a is toggle for downward linear slide movement
             if (a2Pressed == 0) {
@@ -150,23 +137,22 @@ public class TeleOpDriving extends OpMode {
                 linearSlideStatus = "Off";
             }
         }
+        //endregion
 
 
-
-
+        //open claw
         if (gamepad1.x) {
         clawRight.setPosition(0.1);
         clawLeft.setPosition(0.34);
         }
 
+        //close claw
         if (gamepad1.y) {
           clawLeft.setPosition(0.55);
           clawRight.setPosition(0.32);
-
         }
-//            armPosition += aAxisMovement;
-            //arm.setPosition(armPosition);
 
+        //four-bar
         if (gamepad2.left_bumper) {
             armLeft.setPosition(0);
             armRight.setPosition(0);
@@ -177,22 +163,13 @@ public class TeleOpDriving extends OpMode {
 
         }
 
-
-
-
+        //Linear Slide Power Formula
         linearSlideLeft.setPower(0.4*(lAxisMovement + a2Pressed));
         linearSlideRight.setPower(0.4*(lAxisMovement + a2Pressed));
 
 
 
-            //-1620 maximum linear slide extension
-//        if (linearSlideLeft.getCurrentPosition() >= -1620 && linearSlideLeft.getCurrentPosition() <= 1) {
-//            linearSlideLeft.setPower(0.3 * linearSlidePower);
-//            linearSlideRight.setPower(0.3 * linearSlidePower);
-//        } else  {
-//            linearSlideLeft.setPower(0);
-//            linearSlideRight.setPower(0);
-//        }
+        //region Telemetry
         telemetry.addData("frontLeft", frontLeft.getPower());
         telemetry.addData("frontRight", frontRight.getPower());
         telemetry.addData("backLeft", backLeft.getPower());
@@ -207,28 +184,12 @@ public class TeleOpDriving extends OpMode {
         telemetry.addData("rightArm Position", armRight.getPosition());
         telemetry.addData("leftArm Position", armLeft.getPosition());
         telemetry.update();
+        //endregion
 
-//        if (gamepad2.right_bumper) { //open claw
-//            RenderNode.setPosition(Constants.openVal);
-//        } else if (gamepad2.left_bumper) { //close claw
-//            RenderNode.setPosition(Constants.closeVal);
-//        }
+
     }
 
-//    public void stop() {
-//        linearSlideLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        linearSlideRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        linearSlideLeft.setTargetPosition(-1600);
-//        linearSlideRight.setTargetPosition(-1600);
-//        linearSlideLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        linearSlideRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        linearSlideLeft.setPower(0.3);
-//        linearSlideRight.setPower(0.3);
-//        while (frontLeft.isBusy() && backRight.isBusy()) {
-//
-//        }
-//    }
-
+    //region Tick and Inches Conversions
     double ticksPerRotation = 537.7;
     double wheelDiameter = 3.779;
     public int mathTicks(double inches) {
@@ -240,5 +201,6 @@ public class TeleOpDriving extends OpMode {
         double raw= Math.round(ticks*(ticksPerRotation*Math.PI)/wheelDiameter);
         return (double)raw;
     }
+    //endregion
 
 }

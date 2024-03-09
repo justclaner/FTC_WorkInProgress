@@ -88,11 +88,11 @@ public class RightBlue extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(12,32,Math.toRadians(0)))
                 .build();
 
-        Trajectory right2 = drive.trajectoryBuilder(startPose)                                .back(2)  //purple pixel
+        Trajectory right2 = drive.trajectoryBuilder(startPose)
                 .back(2)  //purple pixel
                 .build();
 
-        Trajectory right3 = drive.trajectoryBuilder(startPose)                                .back(2)  //purple pixel
+        Trajectory right3 = drive.trajectoryBuilder(startPose)
                 .splineTo(new Vector2d(49,28),0) //yellow pixel
                 .build();
 

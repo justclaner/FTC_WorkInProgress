@@ -55,7 +55,7 @@ public class RightRed extends LinearOpMode {
         visionPortal = VisionPortal.easyCreateWithDefaults(
                 hardwareMap.get(WebcamName.class, "Camera"), visionProcessor);
         //endregion
-
+//hi
         openClaw();
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);

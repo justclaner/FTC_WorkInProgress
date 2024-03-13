@@ -76,7 +76,7 @@ public class LeftRed extends LinearOpMode {
 
         //region left
         Trajectory left1 = drive.trajectoryBuilder(startPose,true)
-                .lineToLinearHeading(new Pose2d(12,-34,0)
+                .lineToLinearHeading(new Pose2d(12,-32,0)
 //                                        ,SampleMecanumDrive.getVelocityConstraint(12, Math.toRadians(180), 14.2),
 //                                        SampleMecanumDrive.getAccelerationConstraint(12)
                 )

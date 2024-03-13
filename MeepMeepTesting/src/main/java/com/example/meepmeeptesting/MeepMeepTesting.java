@@ -37,7 +37,7 @@ public class MeepMeepTesting {
 
                                 //region left
 
-//                                .lineToLinearHeading(new Pose2d(12,-34,0)
+//                                .lineToLinearHeading(new Pose2d(12,-29,0)
 ////                                        ,SampleMecanumDrive.getVelocityConstraint(12, Math.toRadians(180), 14.2),
 ////                                        SampleMecanumDrive.getAccelerationConstraint(12)
 //                                )
@@ -210,7 +210,7 @@ public class MeepMeepTesting {
                                 //endregion
 
                                 //region right
-//                                .lineToLinearHeading(new Pose2d(12,32,Math.toRadians(0)))
+//                                .lineToLinearHeading(new Pose2d(12,29,Math.toRadians(0)))
 //                                .back(2)  //purple pixel
 //                                .waitSeconds(0.1)
 //                                .splineTo(new Vector2d(49,28),0) //yellow pixel
@@ -223,10 +223,10 @@ public class MeepMeepTesting {
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-                //.addEntity(redLeftBot)
-                .addEntity(redRightBot)
-                .addEntity(blueLeftBot)
-                //.addEntity(blueRightBot)
+                .addEntity(redLeftBot)
+                //.addEntity(redRightBot)
+                //.addEntity(blueLeftBot)
+                .addEntity(blueRightBot)
                 .start();
     }
     public static double r(double degree) {

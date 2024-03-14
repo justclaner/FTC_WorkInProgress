@@ -153,19 +153,19 @@ public class TeleOpDriving extends OpMode {
         }
 
         //four-bar
-//        if (gamepad2.left_bumper) {
-//            armLeft.setPosition(0);
-//            armRight.setPosition(0);
-//        }
-//        if (gamepad2.right_bumper) {
-//            armLeft.setPosition(1);
-//            armRight.setPosition(1);
-//
-//        }
+        if (gamepad2.left_bumper) {
+            armLeft.setPosition(0.1);
+            armRight.setPosition(0.1);
+        }
+        if (gamepad2.right_bumper) {
+            armLeft.setPosition(0.85);
+            armRight.setPosition(0.85);
+
+        }
 
         //four-bar continuous servo rotation formula; 0.5 is no movement
-        armLeft.setPosition(0.5*(1-aAxisMovement));
-        armRight.setPosition(0.5*(1-aAxisMovement));
+//        armLeft.setPosition(0.5*(1-aAxisMovement));
+//        armRight.setPosition(0.5*(1-aAxisMovement));
 
         //Linear Slide Power Formula
         linearSlideLeft.setPower(0.4*(lAxisMovement + a2Pressed));

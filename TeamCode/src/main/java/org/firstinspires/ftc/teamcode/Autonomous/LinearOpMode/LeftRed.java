@@ -83,94 +83,97 @@ public class LeftRed extends LinearOpMode {
                 .build();
 
         //region left
-//        Trajectory left1 = drive.trajectoryBuilder(startPose,true)
-//                .lineToLinearHeading(new Pose2d(12,-32,0)
-////                                        ,SampleMecanumDrive.getVelocityConstraint(12, Math.toRadians(180), 14.2),
-////                                        SampleMecanumDrive.getAccelerationConstraint(12)
-//                )
-//                .build();
-//
-//        Trajectory left2 = drive.trajectoryBuilder(left1.end())
-//                .back(2) //purple pixel
-//                .build();
-//
-//        Trajectory left3 = drive.trajectoryBuilder(left2.end())
-//                .splineTo(new Vector2d(50,-28),0) //yellow pixel
-//                .build();
-
-
-        //new
-        Trajectory left1 = drive.trajectoryBuilder(backUp.end())
-                .lineToLinearHeading(new Pose2d(12,-32,Math.toRadians(180))
+        Trajectory left1 = drive.trajectoryBuilder(startPose,true)
+                .lineToLinearHeading(new Pose2d(12,-32,0)
 //                                        ,SampleMecanumDrive.getVelocityConstraint(12, Math.toRadians(180), 14.2),
 //                                        SampleMecanumDrive.getAccelerationConstraint(12)
                 )
                 .build();
 
         Trajectory left2 = drive.trajectoryBuilder(left1.end())
-                .forward(2) //purple pixel
+                .back(2) //purple pixel
                 .build();
 
         Trajectory left3 = drive.trajectoryBuilder(left2.end())
-                .back(5)
+                ////50,-28
+                .splineTo(new Vector2d(58.5,-59.5),0) //yellow pixel
                 .build();
-
-        Trajectory left4 = drive.trajectoryBuilder(left3.end())
-                .lineToLinearHeading(new Pose2d(49,-28,0)) //yellow pixel
-                .build();
-        //endregion
-
-        //region middle
-//        Trajectory mid1 = drive.trajectoryBuilder(startPose)
-//                .lineTo(new Vector2d(12,-34)) //purple pixel
-//                .build();
-
-
-//        Trajectory mid2 = drive.trajectoryBuilder(mid1.end())
-//                .forward(3)
-//                .splineTo(new Vector2d(49,-35),0) //yellow pixel
-//                .build();
 
 
         //new
-        Trajectory mid2 = drive.trajectoryBuilder(backUp.end())
-                .lineToLinearHeading(new Pose2d(12,-34,Math.toRadians(90))) //purple pixel
+//        Trajectory left1 = drive.trajectoryBuilder(backUp.end())
+//                .lineToLinearHeading(new Pose2d(12,-32,Math.toRadians(180))
+////                                        ,SampleMecanumDrive.getVelocityConstraint(12, Math.toRadians(180), 14.2),
+////                                        SampleMecanumDrive.getAccelerationConstraint(12)
+//                )
+//                .build();
+//
+//        Trajectory left2 = drive.trajectoryBuilder(left1.end())
+//                .forward(2) //purple pixel
+//                .build();
+//
+//        Trajectory left3 = drive.trajectoryBuilder(left2.end())
+//                .back(5)
+//                .build();
+//
+//        Trajectory left4 = drive.trajectoryBuilder(left3.end())
+//                .lineToLinearHeading(new Pose2d(49,-28,0)) //yellow pixel
+//                .build();
+        //endregion
+
+        //region middle
+        Trajectory mid1 = drive.trajectoryBuilder(startPose)
+                .lineTo(new Vector2d(12,-34)) //purple pixel
                 .build();
 
-        Trajectory mid3 = drive.trajectoryBuilder(mid2.end())
-                .back(20)
+
+        Trajectory mid2 = drive.trajectoryBuilder(mid1.end())
+                .forward(3)
+                ////49,-35
+                .splineTo(new Vector2d(58.5,-59.5),0) //yellow pixel
                 .build();
 
-        Trajectory mid4 = drive.trajectoryBuilder(mid3.end())
-                .splineToLinearHeading(new Pose2d(49,-35,0),Math.toRadians(0)) //yellow pixel
-                .build();
+
+        //new
+//        Trajectory mid2 = drive.trajectoryBuilder(backUp.end())
+//                .lineToLinearHeading(new Pose2d(12,-34,Math.toRadians(90))) //purple pixel
+//                .build();
+//
+//        Trajectory mid3 = drive.trajectoryBuilder(mid2.end())
+//                .back(20)
+//                .build();
+//
+//        Trajectory mid4 = drive.trajectoryBuilder(mid3.end())
+//                .splineToLinearHeading(new Pose2d(49,-35,0),Math.toRadians(0)) //yellow pixel
+//                .build();
 
         //endregion
 
         //region right
-//        Trajectory right1 = drive.trajectoryBuilder(startPose)
-//                .lineTo(new Vector2d(23,-40)) //purple pixel
-//                .build();
+        Trajectory right1 = drive.trajectoryBuilder(startPose)
+                .lineTo(new Vector2d(23,-40)) //purple pixel
+                .build();
 
 
-//        Trajectory right2 = drive.trajectoryBuilder(right1.end())
-//                .forward(5)
-//                .splineTo(new Vector2d(49,-42),Math.toRadians(0)) //yellow pixel
-//                .build();
+        Trajectory right2 = drive.trajectoryBuilder(right1.end())
+                .forward(5)
+                ////49,-42
+                .splineTo(new Vector2d(58.5,-59.5),Math.toRadians(0)) //yellow pixel
+                .build();
 
 
         //new
-        Trajectory right1 = drive.trajectoryBuilder(backUp.end())
-                .lineToLinearHeading(new Pose2d(23,-40,Math.toRadians(90))) //purple pixel
-                .build();
-
-        Trajectory right2 = drive.trajectoryBuilder(right1.end())
-                .back(10)
-                .build();
-
-        Trajectory right3 = drive.trajectoryBuilder(right2.end())
-                .lineToLinearHeading(new Pose2d(49,-42,0)) //yellow pixel
-                .build();
+//        Trajectory right1 = drive.trajectoryBuilder(backUp.end())
+//                .lineToLinearHeading(new Pose2d(23,-40,Math.toRadians(90))) //purple pixel
+//                .build();
+//
+//        Trajectory right2 = drive.trajectoryBuilder(right1.end())
+//                .back(10)
+//                .build();
+//
+//        Trajectory right3 = drive.trajectoryBuilder(right2.end())
+//                .lineToLinearHeading(new Pose2d(49,-42,0)) //yellow pixel
+//                .build();
         //endregion
 
         while (!isStarted()) {
@@ -186,42 +189,42 @@ public class LeftRed extends LinearOpMode {
 
         switch (visionProcessor.getSelection()) {
             case LEFT:
-//                drive.followTrajectory(left1);
-//                drive.followTrajectory(left2);
-//                stopRobot(0.1);
-//                drive.followTrajectory(left3);
-
-                drive.followTrajectory(backUp);
                 drive.followTrajectory(left1);
                 drive.followTrajectory(left2);
                 stopRobot(0.1);
                 drive.followTrajectory(left3);
-                drive.followTrajectory(left4);
+
+//                drive.followTrajectory(backUp);
+//                drive.followTrajectory(left1);
+//                drive.followTrajectory(left2);
+//                stopRobot(0.1);
+//                drive.followTrajectory(left3);
+//                drive.followTrajectory(left4);
 
 
                 break;
             case MIDDLE:
-//                drive.followTrajectory(mid1);
-//                stopRobot(0.1);
-//                drive.followTrajectory(mid2);
-
-                drive.followTrajectory(backUp);
-                drive.followTrajectory(mid2);
+                drive.followTrajectory(mid1);
                 stopRobot(0.1);
-                drive.followTrajectory(mid3);
-                drive.followTrajectory(mid4);
+                drive.followTrajectory(mid2);
+
+//                drive.followTrajectory(backUp);
+//                drive.followTrajectory(mid2);
+//                stopRobot(0.1);
+//                drive.followTrajectory(mid3);
+//                drive.followTrajectory(mid4);
 
                 break;
             case RIGHT:
-//                drive.followTrajectory(right1);
-//                stopRobot(0.1);
-//                drive.followTrajectory(right2);
-
-                drive.followTrajectory(backUp);
                 drive.followTrajectory(right1);
                 stopRobot(0.1);
                 drive.followTrajectory(right2);
-                drive.followTrajectory(right3);
+
+//                drive.followTrajectory(backUp);
+//                drive.followTrajectory(right1);
+//                stopRobot(0.1);
+//                drive.followTrajectory(right2);
+//                drive.followTrajectory(right3);
                 break;
         }
     }

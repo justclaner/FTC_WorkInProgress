@@ -36,15 +36,15 @@ public class MeepMeepTesting {
                         drive.trajectorySequenceBuilder(redLeft)
 
                                 //region left
-//                                .back(5)
-//                                .lineToLinearHeading(new Pose2d(12,-29,Math.toRadians(180))
-////                                        ,SampleMecanumDrive.getVelocityConstraint(12, Math.toRadians(180), 14.2),
-////                                        SampleMecanumDrive.getAccelerationConstraint(12)
-//                                )
-//                                .forward(2).waitSeconds(0.1) //purple pixel
-//                                .back(5)
-//                                .lineToLinearHeading(new Pose2d(49,-28,0)) //yellow pixel
-//
+                                .back(5)
+                                .lineToLinearHeading(new Pose2d(12,-29,Math.toRadians(180))
+//                                        ,SampleMecanumDrive.getVelocityConstraint(12, Math.toRadians(180), 14.2),
+//                                        SampleMecanumDrive.getAccelerationConstraint(12)
+                                )
+                                .forward(2).waitSeconds(0.1) //purple pixel
+                                .back(5)
+                                .lineToLinearHeading(new Pose2d(49,-28,0)) //yellow pixel
+
 //                                .setReversed(true).waitSeconds(0.2)
 //
 //                                .splineToLinearHeading(new Pose2d(12,-58,Math.toRadians(180)),Math.toRadians(270)).setReversed(false)
@@ -79,12 +79,12 @@ public class MeepMeepTesting {
 //endregion
 
                                 //region right
-                                .back(5)
-                                .lineToLinearHeading(new Pose2d(23,-40,Math.toRadians(90))) //purple pixel
-                                .waitSeconds(0.1)
-
-                                .back(10)
-                                .lineToLinearHeading(new Pose2d(49,-42,0)) //yellow pixel
+//                                .back(5)
+//                                .lineToLinearHeading(new Pose2d(23,-40,Math.toRadians(90))) //purple pixel
+//                                .waitSeconds(0.1)
+//
+//                                .back(10)
+//                                .lineToLinearHeading(new Pose2d(49,-42,0)) //yellow pixel
 
 
                                 //endregion
@@ -150,22 +150,35 @@ public class MeepMeepTesting {
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(blueLeft)
                                 //region left
-                                    .back(5)
-                                .lineToLinearHeading(new Pose2d(-36,32,0))
+                                .lineToLinearHeading(new Pose2d(-36,32,Math.toRadians(180)))
+                                .back(3) //purple
+                                .forward(4)
+                .splineTo(new Vector2d(-42,20),Math.toRadians(-90))
+                .splineTo(new Vector2d(-28,12),0)
 
-                                .forward(3) //purple
-                                .waitSeconds(0.1)
+                .lineTo(new Vector2d(12,12))
+                                //originall 49,42
+                .splineTo(new Vector2d(58.5,59.5),0) //yellow pixel
 
-                                    .back(5)
-                                    .splineToConstantHeading(new Vector2d(-42,12),Math.toRadians(-90))
-                                .lineTo(new Vector2d(12,12))
-                                .splineTo(new Vector2d(49,42),0) //yellow pixel
+                                //with claw
+//                                    .back(5)
+//                                .lineToLinearHeading(new Pose2d(-36,32,0))
+//
+//                                .forward(3) //purple
+//                                .waitSeconds(0.1)
+//
+//                                    .back(5)
+//                                    .splineToConstantHeading(new Vector2d(-42,12),Math.toRadians(-90))
+//                                .lineTo(new Vector2d(12,12))
+//                                .splineTo(new Vector2d(49,42),0) //yellow pixel
 
                                 //endregion
 
 
 
                                 //region middle
+
+                                //with claw
 //                                .back(5)
 //                                .lineToLinearHeading(new Pose2d(-36,33,Math.toRadians(-90))) //purple
 //                                .waitSeconds(0.1)
@@ -204,28 +217,43 @@ public class MeepMeepTesting {
 
 
                                 //region left
-                                .back(5)
-                                .lineToLinearHeading(new Pose2d(23,40,Math.toRadians(-90))) //purple pixel
-                                .waitSeconds(0.1)
-
-                                .back(10)
-                                .lineToLinearHeading(new Pose2d(49,42,0)) //yellow pixel
+//                                .back(5)
+//                                .lineToLinearHeading(new Pose2d(23,40,Math.toRadians(-90))) //purple pixel
+//                                .waitSeconds(0.1)
+//
+//                                .back(10)
+//                                //originally 49,42
+//                                .lineToLinearHeading(new Pose2d(58.5,59.5,0)) //yellow pixel
                                 //endregion
 
 
                                 //region middle
+                               // .back(5)
 //                                .lineToLinearHeading(new Pose2d(12,34,Math.toRadians(-90))) //purple pixel
+//
+//                                .setReversed(true)
+//                                .back(3)
+//                                .splineTo(new Vector2d(58.5,59.5),0)
+
+                                //with claw
 //                                .back(20)
 //                                .splineToLinearHeading(new Pose2d(49,35,0),Math.toRadians(0)) //yellow pixel
                                 //endregion
 
                                 //region right
-//                                .back(5)
-//                                .lineToLinearHeading(new Pose2d(12,29,Math.toRadians(180))
-////                                        ,SampleMecanumDrive.getVelocityConstraint(12, Math.toRadians(180), 14.2),
-////                                        SampleMecanumDrive.getAccelerationConstraint(12)
-//                                )
-//                                .forward(2).waitSeconds(0.1) //purple pixel
+                                .back(5)
+                                .lineToLinearHeading(new Pose2d(12,29,Math.toRadians(180))
+//                                        ,SampleMecanumDrive.getVelocityConstraint(12, Math.toRadians(180), 14.2),
+//                                        SampleMecanumDrive.getAccelerationConstraint(12)
+                                )
+                                .forward(2).waitSeconds(0.1) //purple pixel
+
+                                .setReversed(true)
+                                .back(5)
+                                .splineTo(new Vector2d(58.5,59.5),0)
+
+
+                                //with claw
 //                                .back(5)
 //                                .lineToLinearHeading(new Pose2d(49,28,0)) //yellow pixel
                                 //endregion
@@ -237,9 +265,9 @@ public class MeepMeepTesting {
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-              // .addEntity(redLeftBot)
+              //.addEntity(redLeftBot)
                .addEntity(redRightBot)
-                .addEntity(blueLeftBot)
+               // .addEntity(blueLeftBot)
                 //.addEntity(blueRightBot)
                 .start();
     }

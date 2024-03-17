@@ -25,7 +25,7 @@ public class TeleOpDriving extends OpMode {
     Servo armLeft;    //2
     Servo armRight; //3
 
-//    Servo droneLauncher;
+    Servo droneLauncher; //4
     //endregion
 
     @Override
@@ -45,7 +45,7 @@ public class TeleOpDriving extends OpMode {
       clawRight = hardwareMap.get(Servo.class, "clawRight");
         armLeft = hardwareMap.get(Servo.class, "armLeft");
         armRight = hardwareMap.get(Servo.class, "armRight");
-        //droneLauncher = hardwareMap.get(Servo.class,"droneLauncher");
+        droneLauncher = hardwareMap.get(Servo.class,"droneLauncher");
 
         armLeft.setDirection(Servo.Direction.REVERSE);
         clawLeft.setDirection(Servo.Direction.REVERSE);
@@ -55,7 +55,7 @@ public class TeleOpDriving extends OpMode {
       clawRight.scaleRange(0,1);
       armLeft.scaleRange(0,1);
       armRight.scaleRange(0,1);
-      //droneLauncher.scaleRange(0,1);
+      droneLauncher.scaleRange(0,1);
 
 
 //        armRight.setPosition(1);
@@ -74,12 +74,12 @@ public class TeleOpDriving extends OpMode {
        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
-      //  linearSlideRight.setDirection(DcMotorSimple.Direction.REVERSE); // or right
-        linearSlideLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        linearSlideRight.setDirection(DcMotorSimple.Direction.REVERSE); // or right
+       // linearSlideLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         //endregion
 
-        clawLeft.setPosition(0.34);
-        clawRight.setPosition(0.1);
+        clawLeft.setPosition(0.3);
+        clawRight.setPosition(0.3);
 
     }
 
@@ -127,30 +127,49 @@ public class TeleOpDriving extends OpMode {
 
 
         //region Linear Slide Toggle
-        if (gamepad2.a) {
-            //a is toggle for downward linear slide movement
-            if (a2Pressed == 0) {
-                a2Pressed = 1;
-                linearSlideStatus = "On";
-            } else {
-                a2Pressed = 0;
-                linearSlideStatus = "Off";
-            }
-        }
+//        if (gamepad2.a) {
+//            //a is toggle for downward linear slide movement
+//            if (a2Pressed == 0) {
+//                a2Pressed = 1;
+//                linearSlideStatus = "On";
+//            } else {
+//                a2Pressed = 0;
+//                linearSlideStatus = "Off";
+//            }
+//        }
         //endregion
+//drone launcher
+        if (gamepad2.dpad_down) {
+            droneLauncher.setPosition(0.14);
+        }
 
+        if (gamepad2.dpad_up && gamepad2.x) {
+            droneLauncher.setPosition(0.3);
+        }
 
         //open claw
+        //top claw
         if (gamepad1.x) {
-        clawRight.setPosition(0.1);
-        clawLeft.setPosition(0.34);
+            clawLeft.setPosition(0.3);
+            clawRight.setPosition(0.3);
         }
 
-        //close claw
-        if (gamepad1.y) {
-          clawLeft.setPosition(0.55);
-          clawRight.setPosition(0.32);
+        //bottom claw
+        if (gamepad1.y){
+            clawLeft.setPosition(0.5);
+            clawRight.setPosition(0.5);
+
         }
+//        if (gamepad1.x) {
+//        clawRight.setPosition(0.1);
+//        clawLeft.setPosition(0.34);
+//        }
+//
+//        //close claw
+//        if (gamepad1.y) {
+//          clawLeft.setPosition(0.55);
+//          clawRight.setPosition(0.32);
+//        }
 
         //four-bar
         if (gamepad2.left_bumper) {
@@ -183,10 +202,11 @@ public class TeleOpDriving extends OpMode {
         telemetry.addData("Left Slide Pos", linearSlideLeft.getCurrentPosition());
         telemetry.addData("Right Slide Pos", linearSlideRight.getCurrentPosition());
         telemetry.addData("Linear Slide Status (Suspend)", linearSlideStatus);
-        telemetry.addData("clawArm Position", clawRight.getPosition());
-        telemetry.addData("clawArm Position", clawLeft.getPosition());
+        telemetry.addData("clawR Position", clawRight.getPosition());
+        telemetry.addData("clawL Position", clawLeft.getPosition());
         telemetry.addData("rightArm Position", armRight.getPosition());
         telemetry.addData("leftArm Position", armLeft.getPosition());
+        telemetry.addData("drone pos",droneLauncher.getPosition());
         telemetry.update();
         //endregion
 

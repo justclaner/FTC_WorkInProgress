@@ -66,7 +66,7 @@ public class RightRed extends LinearOpMode {
                 hardwareMap.get(WebcamName.class, "Camera"), visionProcessor);
         //endregion
 
-        openClaw();
+      //  openClaw();
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         Pose2d startPose = new Pose2d(-36,-63,Math.toRadians(-90));//change
@@ -86,13 +86,13 @@ public class RightRed extends LinearOpMode {
                 .build();
 
         Trajectory left3 = drive.trajectoryBuilder(left2.end())
-                .lineTo(new Vector2d(-34,-12))
+                .lineTo(new Vector2d(-34,-10.5))
                 .build();
 
         Trajectory left4 = drive.trajectoryBuilder(left3.end())
-                .lineTo(new Vector2d(12,-12))
+                .lineTo(new Vector2d(12,-10.5))
                 ////49,-30
-                .splineTo(new Vector2d(58.5,-59.5),0) //yellow pixel
+                .splineTo(new Vector2d(58.5,-10.5),0) //yellow pixel
                 .build();
 
         //new
@@ -121,7 +121,11 @@ public class RightRed extends LinearOpMode {
                 .build();
 
         Trajectory mid2 = drive.trajectoryBuilder(mid1.end())
-                .forward(2)
+                .forward(3)
+                .splineTo(new Vector2d(-48,-46.5),Math.toRadians(180))
+                .splineTo(new Vector2d(-55.5,-35.5),Math.toRadians(90))
+                .splineTo(new Vector2d(-33.5,-10.5),Math.toRadians(0))
+                .lineTo(new Vector2d(58.5,-10.5))
                 .build();
 
         Trajectory mid3 = drive.trajectoryBuilder(mid2.end())
@@ -163,11 +167,11 @@ public class RightRed extends LinearOpMode {
         Trajectory right3 = drive.trajectoryBuilder(right2.end())
                 .forward(4)
                 .splineTo(new Vector2d(-42,-20),Math.toRadians(90))
-                .splineTo(new Vector2d(-28,-12),0)
+                .splineTo(new Vector2d(-28,-10.5),0)
 
-                .lineTo(new Vector2d(12,-12))
+                .lineTo(new Vector2d(58.5,-10.5))
                 ////49,-42
-                .splineTo(new Vector2d(58.5,-59.5),0) //yellow pixel
+              //  .splineTo(new Vector2d(58.5,-59.5),0) //yellow pixel
                 .build();
 
         //with claw
@@ -205,7 +209,7 @@ public class RightRed extends LinearOpMode {
 
       //          drive.followTrajectory(backUp); //comment this out for old route
                 drive.followTrajectory(left1);
-                stopRobot(0.1);
+                stopRobot(1);
                 drive.followTrajectory(left2);
                 drive.followTrajectory(left3);
                 drive.followTrajectory(left4);
@@ -214,10 +218,10 @@ public class RightRed extends LinearOpMode {
             case MIDDLE:
     //        drive.followTrajectory(backUp); //comment this out for old route
             drive.followTrajectory(mid1);
-            stopRobot(0.1);
+            stopRobot(1);
             drive.followTrajectory(mid2);
-            drive.followTrajectory(mid3);
-            drive.followTrajectory(mid4);
+        //    drive.followTrajectory(mid3);
+        //    drive.followTrajectory(mid4);
 
                 break;
             case RIGHT:
@@ -225,7 +229,7 @@ public class RightRed extends LinearOpMode {
            //     drive.followTrajectory(backUp); //comment this out for old route
                 drive.followTrajectory(right1);
                 drive.followTrajectory(right2);
-                stopRobot(0.1);
+                stopRobot(1);
                 drive.followTrajectory(right3);
              //   drive.followTrajectory(right4);
                 break;

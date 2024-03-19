@@ -151,7 +151,7 @@ public class LeftRed extends LinearOpMode {
 
         //region right
         Trajectory right1 = drive.trajectoryBuilder(startPose)
-                .lineTo(new Vector2d(23,-40)) //purple pixel
+                .lineTo(new Vector2d(23,-39.6)) //purple pixel
                 .build();
 
 

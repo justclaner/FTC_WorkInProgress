@@ -16,8 +16,8 @@ public class TeleOpDriving extends OpMode {
     DcMotor backLeft;  // 1
     DcMotor backRight; // 3
 
-    DcMotor linearSlideLeft;  // 0
-    DcMotor linearSlideRight; // 1
+    DcMotor linearSlideLeft;  // 0 expansion
+    DcMotor linearSlideRight; // 1 expansion
     Servo clawLeft;  //1
 
     Servo clawRight;  //0
@@ -26,6 +26,8 @@ public class TeleOpDriving extends OpMode {
     Servo armRight; //3
 
     Servo droneLauncher; //4
+
+    Servo clawRotator; //5
     //endregion
 
     @Override
@@ -45,6 +47,7 @@ public class TeleOpDriving extends OpMode {
       clawRight = hardwareMap.get(Servo.class, "clawRight");
         armLeft = hardwareMap.get(Servo.class, "armLeft");
         armRight = hardwareMap.get(Servo.class, "armRight");
+        clawRotator = hardwareMap.get(Servo.class,"servoRotator");
         droneLauncher = hardwareMap.get(Servo.class,"droneLauncher");
 
         armLeft.setDirection(Servo.Direction.REVERSE);
@@ -56,6 +59,7 @@ public class TeleOpDriving extends OpMode {
       armLeft.scaleRange(0,1);
       armRight.scaleRange(0,1);
       droneLauncher.scaleRange(0,1);
+      clawRotator.scaleRange(0,1);
 
 
 //        armRight.setPosition(1);
@@ -74,13 +78,21 @@ public class TeleOpDriving extends OpMode {
        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
+     //   armLeft.setDirection(Servo.Direction.REVERSE);
+     //   armRight.setDirection(Servo.Direction.REVERSE);
+
         linearSlideRight.setDirection(DcMotorSimple.Direction.REVERSE); // or right
        // linearSlideLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         //endregion
 
-        clawLeft.setPosition(0.3);
-        clawRight.setPosition(0.3);
+        clawLeft.setPosition(0.5);
+        clawRight.setPosition(0.5);
 
+        armLeft.setPosition(0.3);
+        armRight.setPosition(0.3);
+     // armLeft.setPosition(0.5);
+      // armRight.setPosition(0.5);
+        clawRotator.setPosition(0.5);
     }
 
     int a2Pressed = 0;
@@ -173,13 +185,20 @@ public class TeleOpDriving extends OpMode {
 
         //four-bar
         if (gamepad2.left_bumper) {
-            armLeft.setPosition(0.1);
-            armRight.setPosition(0.1);
+            armLeft.setPosition(0.3);
+            armRight.setPosition(0.3);
         }
         if (gamepad2.right_bumper) {
             armLeft.setPosition(0.85);
             armRight.setPosition(0.85);
 
+        }
+
+        if (gamepad1.dpad_left) {
+            clawRotator.setPosition(0);
+        }
+        if (gamepad1.dpad_right) {
+            clawRotator.setPosition(1);
         }
 
         //four-bar continuous servo rotation formula; 0.5 is no movement

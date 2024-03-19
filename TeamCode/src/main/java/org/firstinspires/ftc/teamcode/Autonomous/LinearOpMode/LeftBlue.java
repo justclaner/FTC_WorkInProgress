@@ -94,7 +94,7 @@ public class LeftBlue extends LinearOpMode {
                 .lineTo(new Vector2d(12,12))
 
         //49,42
-                .splineTo(new Vector2d(58.5,59.5),0) //yellow pixel
+                .splineTo(new Vector2d(54.5,59.5),0) //yellow pixel
                 .build();
 
         //new
@@ -132,7 +132,7 @@ public class LeftBlue extends LinearOpMode {
 
         Trajectory mid4 = drive.trajectoryBuilder(mid3.end())
         //49,35
-                .lineToLinearHeading(new Pose2d(58.5,59.5,0)) //yellow pixel
+                .lineToLinearHeading(new Pose2d(54.5,59.5,0)) //yellow pixel
                 .build();
 
         //new
@@ -170,7 +170,7 @@ public class LeftBlue extends LinearOpMode {
         Trajectory right4 = drive.trajectoryBuilder(right3.end())
                 .lineTo(new Vector2d(12,12))
         //49,30
-                .splineTo(new Vector2d(58.5,59.5),0) //yellow pixel
+                .splineTo(new Vector2d(54.5,59.5),0) //yellow pixel
                 .build();
 
         //new

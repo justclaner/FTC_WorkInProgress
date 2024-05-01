@@ -18,16 +18,16 @@ public class TeleOpDriving extends OpMode {
 
     DcMotor linearSlideLeft;  // 0 expansion
     DcMotor linearSlideRight; // 1 expansion
-    Servo clawLeft;  //1
+    Servo clawLeft;  //2 expansion
 
     Servo clawRight;  //0
 
-    Servo armLeft;    //2
+    Servo armLeft;    //0 expansion
     Servo armRight; //3
 
     Servo droneLauncher; //4
 
-    Servo clawRotator; //5
+    Servo clawRotator; //1 expansion
     //endregion
 
     @Override
@@ -85,14 +85,16 @@ public class TeleOpDriving extends OpMode {
        // linearSlideLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         //endregion
 
-        clawLeft.setPosition(0.5);
-        clawRight.setPosition(0.5);
 
-        armLeft.setPosition(0.3);
-        armRight.setPosition(0.3);
+
+       // armLeft.setPosition(0.3);
+       // armRight.setPosition(0.3);
      // armLeft.setPosition(0.5);
       // armRight.setPosition(0.5);
-        clawRotator.setPosition(0.5);
+       // clawRotator.setPosition(0.5);
+        armLeft.setPosition(0.15);
+        armRight.setPosition(0.15);
+        clawRotator.setPosition(0.91);
     }
 
     int a2Pressed = 0;
@@ -162,8 +164,8 @@ public class TeleOpDriving extends OpMode {
         //open claw
         //top claw
         if (gamepad1.x) {
-            clawLeft.setPosition(0.3);
-            clawRight.setPosition(0.3);
+            clawLeft.setPosition(0.8);
+            clawRight.setPosition(0.8);
         }
 
         //bottom claw
@@ -184,21 +186,39 @@ public class TeleOpDriving extends OpMode {
 //        }
 
         //four-bar
-        if (gamepad2.left_bumper) {
-            armLeft.setPosition(0.3);
-            armRight.setPosition(0.3);
+        //tucked away
+        if (gamepad1.left_bumper) {
+            armLeft.setPosition(0.7);
+            armRight.setPosition(0.7);
         }
-        if (gamepad2.right_bumper) {
-            armLeft.setPosition(0.85);
-            armRight.setPosition(0.85);
+
+        //raise up/down
+        //arm on ground
+        if (gamepad1.right_bumper) {
+            armLeft.setPosition(0.15);
+            armRight.setPosition(0.15);
 
         }
 
-        if (gamepad1.dpad_left) {
-            clawRotator.setPosition(0);
+        //scoring
+        if (gamepad1.dpad_up) {
+            armLeft.setPosition(0.35);
+            armRight.setPosition(0.35);
         }
+
+        //wrist
+        //claw on ground
+        if (gamepad1.dpad_left || gamepad2.y) {
+            clawRotator.setPosition(0.91);
+        }
+//score position
+        if (gamepad1.dpad_down) {
+            clawRotator.setPosition(0.85);
+        }
+
+        //claw highest
         if (gamepad1.dpad_right) {
-            clawRotator.setPosition(1);
+            clawRotator.setPosition(0);
         }
 
         //four-bar continuous servo rotation formula; 0.5 is no movement
@@ -226,6 +246,7 @@ public class TeleOpDriving extends OpMode {
         telemetry.addData("rightArm Position", armRight.getPosition());
         telemetry.addData("leftArm Position", armLeft.getPosition());
         telemetry.addData("drone pos",droneLauncher.getPosition());
+        telemetry.addData("claw rotator",clawRotator.getPosition());
         telemetry.update();
         //endregion
 

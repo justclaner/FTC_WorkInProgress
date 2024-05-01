@@ -28,6 +28,8 @@ public class RightRed extends LinearOpMode {
     DcMotor linearSlideRight = null; // 1
     Servo armLeft;    //2
     Servo armRight; //3
+
+    Servo clawRotator; //1 expansion
     private FirstVisionProcessor visionProcessor;
 
     private VisionPortal visionPortal;
@@ -50,6 +52,8 @@ public class RightRed extends LinearOpMode {
         armLeft = hardwareMap.get(Servo.class, "armLeft");
         armRight = hardwareMap.get(Servo.class, "armRight");
 
+        clawRotator = hardwareMap.get(Servo.class,"servoRotator");
+
         clawLeft.setDirection(Servo.Direction.REVERSE);
         armLeft.setDirection(Servo.Direction.REVERSE);
         linearSlideRight.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -57,6 +61,7 @@ public class RightRed extends LinearOpMode {
         clawRight.scaleRange(0,1);
         armLeft.scaleRange(0,1);
         armRight.scaleRange(0,1);
+        clawRotator.scaleRange(0,1);
 
 
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -66,7 +71,11 @@ public class RightRed extends LinearOpMode {
                 hardwareMap.get(WebcamName.class, "Camera"), visionProcessor);
         //endregion
 
-      //  openClaw();
+        closeClaw();
+        stopRobot(0.25);
+        positionWrist("high");
+        stopRobot(0.1);
+        positionArm("high");
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         Pose2d startPose = new Pose2d(-36,-63,Math.toRadians(-90));//change
@@ -298,5 +307,34 @@ public class RightRed extends LinearOpMode {
         }
     }
     //endregion
+    public void positionArm(String position) {
+        switch (position) {
+            case "low":
+                armLeft.setPosition(0.15);
+                armRight.setPosition(0.15);
+                break;
+            case "mid":
+                armLeft.setPosition(0.35);
+                armRight.setPosition(0.35);
+                break;
+            case "high":
+                armLeft.setPosition(0.7);
+                armRight.setPosition(0.7);
+                break;
+        }
+    }
 
+    public void positionWrist(String position) {
+        switch (position) {
+            case "low":
+                clawRotator.setPosition(0.91);
+                break;
+            case "mid":
+                clawRotator.setPosition(0.85);
+                break;
+            case "high":
+                clawRotator.setPosition(0);
+                break;
+        }
+    }
 }

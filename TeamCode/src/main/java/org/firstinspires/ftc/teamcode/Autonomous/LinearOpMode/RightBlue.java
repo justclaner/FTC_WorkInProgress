@@ -29,6 +29,8 @@ public class RightBlue extends LinearOpMode {
     DcMotor linearSlideRight = null; // 1
     Servo armLeft;    //2
     Servo armRight; //3
+
+    Servo clawRotator; //1 expansion
     private FirstVisionProcessor visionProcessor;
 
     private VisionPortal visionPortal;
@@ -51,6 +53,8 @@ public class RightBlue extends LinearOpMode {
         armLeft = hardwareMap.get(Servo.class, "armLeft");
         armRight = hardwareMap.get(Servo.class, "armRight");
 
+        clawRotator = hardwareMap.get(Servo.class,"servoRotator");
+
         clawLeft.setDirection(Servo.Direction.REVERSE);
         armLeft.setDirection(Servo.Direction.REVERSE);
         linearSlideRight.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -58,6 +62,7 @@ public class RightBlue extends LinearOpMode {
         clawRight.scaleRange(0,1);
         armLeft.scaleRange(0,1);
         armRight.scaleRange(0,1);
+        clawRotator.scaleRange(0,1);
 
 
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -67,7 +72,11 @@ public class RightBlue extends LinearOpMode {
                 hardwareMap.get(WebcamName.class, "Camera"), visionProcessor);
         //endregion
 
-        openClaw();
+        closeClaw();
+        stopRobot(0.25);
+        positionWrist("high");
+        stopRobot(0.1);
+        positionArm("high");
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         Pose2d startPose = new Pose2d(12,63,Math.toRadians(90)); //change
@@ -79,14 +88,16 @@ public class RightBlue extends LinearOpMode {
 
         //region left
         Trajectory left1 = drive.trajectoryBuilder(startPose)
-                .lineTo(new Vector2d(23,39.6)) //purple pixel
+                .lineTo(new Vector2d(24,34.6)) //purple pixel
                 .build();
 
         Trajectory left2 = drive.trajectoryBuilder(left1.end())
-                .forward(5) //check for continuity error
-
-      //  //49,42
-                .splineTo(new Vector2d(54.5,59.5),0) //yellow pixel
+                .forward(5)
+                ////49,-42
+                .splineTo(new Vector2d(58,40),Math.toRadians(0)) //yellow pixel
+                .addTemporalMarker(1,() -> {
+                    positionArm("mid");
+                })
                         .build();
 
         //new
@@ -107,13 +118,17 @@ public class RightBlue extends LinearOpMode {
 
         //region middle
         Trajectory mid1 = drive.trajectoryBuilder(startPose)
-                .lineTo(new Vector2d(12,33.4)) //purple pixel
+                .lineTo(new Vector2d(12,32)) //purple pixel
                 .build();
 
         Trajectory mid2 = drive.trajectoryBuilder(mid1.end())
-
-       //// 49,35
-                .splineTo(new Vector2d(54.5,59.5),0) //yellow pixel
+                .forward(3)
+                ////49,-35
+                .splineTo(new Vector2d(27,50),0)
+                .addTemporalMarker(2.5,() -> {
+                    positionArm("mid");
+                })
+                .splineTo(new Vector2d(57,36.5),0) //yellow pixel
                 .build();
 
         //new
@@ -139,7 +154,7 @@ public class RightBlue extends LinearOpMode {
 
         //region right
         Trajectory right1 = drive.trajectoryBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(12,32,Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(12,30,Math.toRadians(0)))
                 .build();
 
         Trajectory right2 = drive.trajectoryBuilder(right1.end())
@@ -149,7 +164,10 @@ public class RightBlue extends LinearOpMode {
 
         //49,28
         Trajectory right3 = drive.trajectoryBuilder(right2.end())
-                .splineTo(new Vector2d(54.5,59.5),0) //yellow pixel
+                .splineTo(new Vector2d(55,-28),0) //yellow pixel
+                .addTemporalMarker(0.3,() -> {
+                    positionArm("mid");
+                })
                 .build();
 
         //new
@@ -179,6 +197,25 @@ public class RightBlue extends LinearOpMode {
 //                .build();
         //endregion
 
+        Trajectory backUpLeft = drive.trajectoryBuilder(left2.end())
+                .back(5
+                        ,SampleMecanumDrive.getVelocityConstraint(12, Math.toRadians(180), 14.2),
+                        SampleMecanumDrive.getAccelerationConstraint(12)
+                )
+                .build();
+
+        Trajectory backUpMiddle = drive.trajectoryBuilder(mid2.end())
+                .back(5
+                        ,SampleMecanumDrive.getVelocityConstraint(12, Math.toRadians(180), 14.2),
+                        SampleMecanumDrive.getAccelerationConstraint(12)
+                )
+                .build();
+        Trajectory backUpRight = drive.trajectoryBuilder(right3.end())
+                .back(5
+                        ,SampleMecanumDrive.getVelocityConstraint(12, Math.toRadians(180), 14.2),
+                        SampleMecanumDrive.getAccelerationConstraint(12)
+                )
+                .build();
 
         while (!isStarted()) {
             telemetry.addData("Identified", visionProcessor.getSelection());
@@ -195,6 +232,12 @@ public class RightBlue extends LinearOpMode {
                 stopRobot(0.1);
                 drive.followTrajectory(left2);
 
+                stopRobot(0.1);
+                positionWrist("mid");
+                stopRobot(0.5);
+                openClaw();
+                stopRobot(0.5);
+                drive.followTrajectory(backUpLeft);
 //                drive.followTrajectory(backUp);
 //                drive.followTrajectory(left1);
 //                stopRobot(0.1);
@@ -207,6 +250,12 @@ public class RightBlue extends LinearOpMode {
                 stopRobot(0.1);
                 drive.followTrajectory(mid2);
 
+                stopRobot(0.1);
+                positionWrist("mid");
+                stopRobot(0.5);
+                openClaw();
+                stopRobot(0.5);
+                drive.followTrajectory(backUpMiddle);
 //                drive.followTrajectory(backUp);
 //                drive.followTrajectory(mid2);
 //                stopRobot(0.1);
@@ -219,6 +268,12 @@ public class RightBlue extends LinearOpMode {
                 stopRobot(0.1);
                 drive.followTrajectory(right3);
 
+                stopRobot(0.1);
+                positionWrist("mid");
+                stopRobot(0.5);
+                openClaw();
+                stopRobot(0.5);
+                drive.followTrajectory(backUpRight);
 //                drive.followTrajectory(backUp);
 //                drive.followTrajectory(right1);
 //                drive.followTrajectory(right2);
@@ -291,5 +346,34 @@ public class RightBlue extends LinearOpMode {
         }
     }
     //endregion
+    public void positionArm(String position) {
+        switch (position) {
+            case "low":
+                armLeft.setPosition(0.15);
+                armRight.setPosition(0.15);
+                break;
+            case "mid":
+                armLeft.setPosition(0.35);
+                armRight.setPosition(0.35);
+                break;
+            case "high":
+                armLeft.setPosition(0.7);
+                armRight.setPosition(0.7);
+                break;
+        }
+    }
 
+    public void positionWrist(String position) {
+        switch (position) {
+            case "low":
+                clawRotator.setPosition(0.91);
+                break;
+            case "mid":
+                clawRotator.setPosition(0.85);
+                break;
+            case "high":
+                clawRotator.setPosition(0);
+                break;
+        }
+    }
 }

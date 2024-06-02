@@ -77,10 +77,10 @@ public class LeftRed extends LinearOpMode {
                 hardwareMap.get(WebcamName.class, "Camera"), visionProcessor);
         //endregion
         closeClaw();
-        stopRobot(0.25);
-        positionWrist("high");
-        stopRobot(0.1);
-        positionArm("high");
+//        stopRobot(0.25);
+//        positionWrist("high");
+//        stopRobot(0.1);
+//        positionArm("high");
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         Pose2d startPose = new Pose2d(12,-63,Math.toRadians(-90));
@@ -97,12 +97,12 @@ public class LeftRed extends LinearOpMode {
                 .build();
 
         Trajectory left2 = drive.trajectoryBuilder(left1.end())
-                .back(3.2) //purple pixel
+                .back(4.2) //purple pixel
                 .build();
 
         Trajectory left3 = drive.trajectoryBuilder(left2.end())
                 ////50,-28
-                .splineTo(new Vector2d(55,-28),0) //yellow pixel
+                .splineTo(new Vector2d(56,-28.5),0) //yellow pixel
                 .addTemporalMarker(0.3,() -> {
                    positionArm("mid");
                 })
@@ -133,18 +133,18 @@ public class LeftRed extends LinearOpMode {
 
         //region middle
         Trajectory mid1 = drive.trajectoryBuilder(startPose)
-                .lineTo(new Vector2d(12,-32)) //purple pixel
+                .lineTo(new Vector2d(12,-32.5)) //purple pixel
                 .build();
 
 
         Trajectory mid2 = drive.trajectoryBuilder(mid1.end())
                 .forward(3)
                 ////49,-35
-                .splineTo(new Vector2d(27,-50),0)
+                .splineTo(new Vector2d(27,-48.5),0)
                 .addTemporalMarker(2.5,() -> {
                     positionArm("mid");
                 })
-                .splineTo(new Vector2d(57,-36.5),0) //yellow pixel
+                .splineTo(new Vector2d(56,-38),0) //yellow pixel
                 .build();
 
 
@@ -165,14 +165,13 @@ public class LeftRed extends LinearOpMode {
 
         //region right
         Trajectory right1 = drive.trajectoryBuilder(startPose)
-                .lineTo(new Vector2d(24,-34.6)) //purple pixel
+                .lineTo(new Vector2d(23.5,-38)) //purple pixel
                 .build();
-
 
         Trajectory right2 = drive.trajectoryBuilder(right1.end())
                 .forward(5)
                 ////49,-42
-                .splineTo(new Vector2d(58,-40),Math.toRadians(0)) //yellow pixel
+                .splineTo(new Vector2d(56,-41.5),Math.toRadians(0)) //yellow pixel
                 .addTemporalMarker(1,() -> {
                     positionArm("mid");
                 })
@@ -195,23 +194,45 @@ public class LeftRed extends LinearOpMode {
 
 
         Trajectory backUpLeft = drive.trajectoryBuilder(left3.end())
-                .back(5
+                .back(8)
+                .build();
+
+        Trajectory backUpLeft2 = drive.trajectoryBuilder(backUpLeft.end())
+                .lineToLinearHeading(new Pose2d(48,-12,Math.toRadians(90))
                         ,SampleMecanumDrive.getVelocityConstraint(12, Math.toRadians(180), 14.2),
-                         SampleMecanumDrive.getAccelerationConstraint(12)
-                        )
+                        SampleMecanumDrive.getAccelerationConstraint(12)
+                )
+                .addTemporalMarker(0.1, () -> {
+                    positionArm("high");
+                })
                 .build();
 
         Trajectory backUpMiddle = drive.trajectoryBuilder(mid2.end())
-                .back(5
-                        ,SampleMecanumDrive.getVelocityConstraint(12, Math.toRadians(180), 14.2),
-                        SampleMecanumDrive.getAccelerationConstraint(12)
-                )
+                .back(8)
                 .build();
-        Trajectory backUpRight = drive.trajectoryBuilder(right2.end())
-                .back(5
+
+        Trajectory backUpMiddle2 = drive.trajectoryBuilder(backUpMiddle.end())
+                .lineToLinearHeading(new Pose2d(48,-12,Math.toRadians(90))
                         ,SampleMecanumDrive.getVelocityConstraint(12, Math.toRadians(180), 14.2),
                         SampleMecanumDrive.getAccelerationConstraint(12)
                 )
+                .addTemporalMarker(0.1, () -> {
+                    positionArm("high");
+                })
+                .build();
+
+        Trajectory backUpRight = drive.trajectoryBuilder(right2.end())
+                .back(8)
+                .build();
+
+        Trajectory backUpRight2 = drive.trajectoryBuilder(backUpRight.end())
+                .lineToLinearHeading(new Pose2d(48,-12,Math.toRadians(90))
+                        ,SampleMecanumDrive.getVelocityConstraint(12, Math.toRadians(180), 14.2),
+                        SampleMecanumDrive.getAccelerationConstraint(12)
+                )
+                .addTemporalMarker(0.1, () -> {
+                    positionArm("high");
+                })
                 .build();
 
         while (!isStarted()) {
@@ -234,10 +255,12 @@ public class LeftRed extends LinearOpMode {
 
                 stopRobot(0.1);
                 positionWrist("mid");
-                stopRobot(0.5);
+                stopRobot(1);
                 openClaw();
-                stopRobot(0.5);
+                stopRobot(1);
                 drive.followTrajectory(backUpLeft);
+                drive.followTrajectory(backUpLeft2);
+
 //                drive.followTrajectory(backUp);
 //                drive.followTrajectory(left1);
 //                drive.followTrajectory(left2);
@@ -254,11 +277,11 @@ public class LeftRed extends LinearOpMode {
 
                 stopRobot(0.1);
                 positionWrist("mid");
-                stopRobot(0.5);
+                stopRobot(1);
                 openClaw();
-                stopRobot(0.5);
+                stopRobot(1);
                 drive.followTrajectory(backUpMiddle);
-
+                drive.followTrajectory(backUpMiddle2);
 //                drive.followTrajectory(backUp);
 //                drive.followTrajectory(mid2);
 //                stopRobot(0.1);
@@ -273,11 +296,11 @@ public class LeftRed extends LinearOpMode {
 
                 stopRobot(0.1);
                 positionWrist("mid");
-                stopRobot(0.5);
+                stopRobot(1);
                 openClaw();
-                stopRobot(0.5);
+                stopRobot(1);
                 drive.followTrajectory(backUpRight);
-
+                drive.followTrajectory(backUpRight2);
 //                drive.followTrajectory(backUp);
 //                drive.followTrajectory(right1);
 //                stopRobot(0.1);
@@ -313,8 +336,8 @@ public class LeftRed extends LinearOpMode {
         clawRight.setPosition(0.5);
     }
     public void closeClaw() {
-        clawLeft.setPosition(0.7);
-        clawRight.setPosition(0.7);
+        clawLeft.setPosition(0.8);
+        clawRight.setPosition(0.8);
     }
 
     public void linearSlideMove(double inches, double power) {
@@ -351,16 +374,16 @@ public class LeftRed extends LinearOpMode {
     public void positionArm(String position) {
         switch (position) {
             case "low":
-                armLeft.setPosition(0.15);
-                armRight.setPosition(0.15);
+                armLeft.setPosition(0.28);
+                armRight.setPosition(0.28);
                 break;
             case "mid":
-                armLeft.setPosition(0.35);
-                armRight.setPosition(0.35);
+                armLeft.setPosition(0.46);
+                armRight.setPosition(0.46);
                 break;
             case "high":
-                armLeft.setPosition(0.7);
-                armRight.setPosition(0.7);
+                armLeft.setPosition(1);
+                armRight.setPosition(1);
                 break;
         }
     }
@@ -368,14 +391,18 @@ public class LeftRed extends LinearOpMode {
     public void positionWrist(String position) {
         switch (position) {
             case "low":
-                clawRotator.setPosition(0.91);
+                clawRotator.setPosition(0.89);
                 break;
             case "mid":
-                clawRotator.setPosition(0.85);
+                clawRotator.setPosition(0.835);
                 break;
             case "high":
                 clawRotator.setPosition(0);
                 break;
         }
+    }
+
+    public void score() {
+
     }
 }

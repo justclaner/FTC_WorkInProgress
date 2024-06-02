@@ -123,10 +123,12 @@ public class MeepMeepTesting {
                                     //region left
                                     .lineToLinearHeading(new Pose2d(-37,-34,Math.toRadians(0))) //purple
                                     .forward(3)
-                                    .lineTo(new Vector2d(-34,-12))
-                                    .lineTo(new Vector2d(12,-12))
-                                    ////49,-30
-                                    .splineTo(new Vector2d(58.5,-12),0) //yellow pixel
+                                    .lineTo(new Vector2d(-34,-10.5))
+                                    .lineTo(new Vector2d(12,-10.5))
+
+                                    .splineTo(new Vector2d(56,-28),0) //yellow pixel
+
+
 //                                    .back(5)
 //                                    .lineToLinearHeading(new Pose2d(-37,-34,Math.toRadians(180))) //purple
 //
@@ -147,12 +149,10 @@ public class MeepMeepTesting {
 //                                    .forward(3)
 //                                    .splineTo(new Vector2d(-48,-46.5),Math.toRadians(180))
 //                                    .splineTo(new Vector2d(-55.5,-35.5),Math.toRadians(90))
-//                                    .splineTo(new Vector2d(-33.5,-12),Math.toRadians(0))
-//                                    .lineTo(new Vector2d(58.5,-12))
-//
-//                                    .strafeRight(48)
-//
-//                                    .lineToLinearHeading(new Pose2d(49,-35,0)) //yellow pixel
+//                                    .splineTo(new Vector2d(-33.5,-10.5),Math.toRadians(0))
+//                                    .lineTo(new Vector2d(12,-10.5))
+//                                    .splineTo(new Vector2d(56,-37),0)
+
                                     //endregion
 
                                     //region right
@@ -160,9 +160,10 @@ public class MeepMeepTesting {
 //                                    .back(3) //purple
 //                                    .forward(4)
 //                                    .splineTo(new Vector2d(-42,-20),Math.toRadians(90))
-//                                    .splineTo(new Vector2d(-28,-12),0)
+//                                    .splineTo(new Vector2d(-28,-10.5),0)
 //
-//                                    .lineTo(new Vector2d(58.5,-12))
+//                                    .lineTo(new Vector2d(12,-10.5))
+//                                    .splineTo(new Vector2d(56,-40),Math.toRadians(0))
                                     ////49,-42
                                    // .splineTo(new Vector2d(58.5,-59.5),0) //yellow pixel
 //                                    .back(5)
@@ -300,10 +301,10 @@ public class MeepMeepTesting {
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-              //.addEntity(redLeftBot)
+              .addEntity(redLeftBot)
               // .addEntity(redRightBot)
                // .addEntity(blueLeftBot)
-                .addEntity(blueRightBot)
+               // .addEntity(blueRightBot)
                 .start();
     }
     public static double r(double degree) {

@@ -92,9 +92,9 @@ public class TeleOpDriving extends OpMode {
      // armLeft.setPosition(0.5);
       // armRight.setPosition(0.5);
        // clawRotator.setPosition(0.5);
-        armLeft.setPosition(0.15);
-        armRight.setPosition(0.15);
-        clawRotator.setPosition(0.91);
+        armLeft.setPosition(0.29);
+        armRight.setPosition(0.29);
+        clawRotator.setPosition(0.89);
     }
 
     int a2Pressed = 0;
@@ -148,7 +148,7 @@ public class TeleOpDriving extends OpMode {
 //                linearSlideStatus = "On";
 //            } else {
 //                a2Pressed = 0;
-//                linearSlideStatus = "Off";
+//                linearSlideStatus = " 2Off";
 //            }
 //        }
         //endregion
@@ -174,6 +174,11 @@ public class TeleOpDriving extends OpMode {
             clawRight.setPosition(0.5);
 
         }
+
+        if (gamepad1.b) {
+            clawLeft.setPosition(0.5);
+        }
+
 //        if (gamepad1.x) {
 //        clawRight.setPosition(0.1);
 //        clawLeft.setPosition(0.34);
@@ -188,32 +193,32 @@ public class TeleOpDriving extends OpMode {
         //four-bar
         //tucked away
         if (gamepad1.left_bumper) {
-            armLeft.setPosition(0.7);
-            armRight.setPosition(0.7);
+            armLeft.setPosition(1);
+            armRight.setPosition(1);
         }
 
         //raise up/down
         //arm on ground
         if (gamepad1.right_bumper) {
-            armLeft.setPosition(0.15);
-            armRight.setPosition(0.15);
+            armLeft.setPosition(0.29);
+            armRight.setPosition(0.29);
 
         }
 
         //scoring
         if (gamepad1.dpad_up) {
-            armLeft.setPosition(0.35);
-            armRight.setPosition(0.35);
+            armLeft.setPosition(0.46);
+            armRight.setPosition(0.46);
         }
 
         //wrist
         //claw on ground
-        if (gamepad1.dpad_left || gamepad2.y) {
-            clawRotator.setPosition(0.91);
+        if (gamepad1.dpad_left) {
+            clawRotator.setPosition(0.89);
         }
 //score position
         if (gamepad1.dpad_down) {
-            clawRotator.setPosition(0.85);
+            clawRotator.setPosition(0.83);
         }
 
         //claw highest
